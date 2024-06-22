@@ -3,12 +3,24 @@ import SwiftUI
 struct MainView: View {
     @StateObject private var viewModel = CalendarEventViewModel()
     @State private var tempFileURL: URL? = nil
-    
+    @State private var expandedSections: Set<UUID> = []
+
     var body: some View {
         VStack {
             Form {
                 ForEach($viewModel.events) { $event in
-                    Section(header: Text("Event")) {
+                    let isExpanded = Binding<Bool>(
+                        get: { expandedSections.contains(event.id) },
+                        set: { newValue in
+                            if newValue {
+                                expandedSections.insert(event.id)
+                            } else {
+                                expandedSections.remove(event.id)
+                            }
+                        }
+                    )
+
+                    DisclosureGroup(isExpanded: isExpanded) {
                         TextField("Event Title", text: $event.title)
                             .onChange(of: event.title) { _ in
                                 handleEventChange()
@@ -21,12 +33,14 @@ struct MainView: View {
                             .onChange(of: event.endDate) { _ in
                                 handleEventChange()
                             }
+                    } label: {
+                        Text(event.title.isEmpty ? "Event" : event.title)
                     }
                 }
-                
+
                 Button(action: {
                     viewModel.addEvent()
-                    handleEventChange()  // Ensure the file is deleted when a new event is added
+                    handleEventChange() // Ensure the file is deleted when a new event is added
                 }) {
                     Text("Add Event")
                         .padding()
@@ -35,7 +49,7 @@ struct MainView: View {
                         .cornerRadius(8)
                 }
             }
-            
+
             if let tempFileURL = tempFileURL {
                 ShareLink(item: tempFileURL) {
                     Text("Share Calendar Events")
@@ -56,24 +70,27 @@ struct MainView: View {
         }
         .padding()
         .onAppear {
+            // Initialize expandedSections with all event IDs to expand them by default
+            expandedSections = Set(viewModel.events.map { $0.id })
+
             // Cleanup any leftover temporary files
             deleteTempFile()
         }
     }
-    
+
     func handleEventChange() {
         if tempFileURL != nil {
             deleteTempFile()
         }
     }
-    
+
     func saveToTempFile() {
         viewModel.createICSData()
         guard let icsData = viewModel.icsData else { return }
-        
+
         let tempDirectory = FileManager.default.temporaryDirectory
         let tempFileURL = tempDirectory.appendingPathComponent("events.ics")
-        
+
         do {
             try icsData.write(to: tempFileURL)
             self.tempFileURL = tempFileURL
@@ -81,7 +98,7 @@ struct MainView: View {
             print("Failed to write .ics file to temporary directory: \(error)")
         }
     }
-    
+
     func deleteTempFile() {
         if let tempFileURL = tempFileURL {
             do {
