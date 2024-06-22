@@ -10,7 +10,7 @@
 		C57127332C270F8500B6AE16 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C57127322C270F8500B6AE16 /* GoogleService-Info.plist */; };
 		C57127362C27108F00B6AE16 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C57127352C27108F00B6AE16 /* FirebaseAnalytics */; };
 		C57127382C27108F00B6AE16 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = C57127372C27108F00B6AE16 /* FirebaseCrashlytics */; };
-		C571273A2C27108F00B6AE16 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = C57127392C27108F00B6AE16 /* FirebaseDatabase */; };
+		C571273E2C271A2400B6AE16 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = C571273D2C271A2400B6AE16 /* FirebaseStorage */; };
 		C581B51E2C26CC34000BCD35 /* CalendarcoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C581B51D2C26CC34000BCD35 /* CalendarcoApp.swift */; };
 		C581B5202C26CC34000BCD35 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C581B51F2C26CC34000BCD35 /* ContentView.swift */; };
 		C581B5222C26CC34000BCD35 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = C581B5212C26CC34000BCD35 /* Item.swift */; };
@@ -39,8 +39,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C571273A2C27108F00B6AE16 /* FirebaseDatabase in Frameworks */,
 				C57127362C27108F00B6AE16 /* FirebaseAnalytics in Frameworks */,
+				C571273E2C271A2400B6AE16 /* FirebaseStorage in Frameworks */,
 				C57127382C27108F00B6AE16 /* FirebaseCrashlytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -107,7 +107,7 @@
 			packageProductDependencies = (
 				C57127352C27108F00B6AE16 /* FirebaseAnalytics */,
 				C57127372C27108F00B6AE16 /* FirebaseCrashlytics */,
-				C57127392C27108F00B6AE16 /* FirebaseDatabase */,
+				C571273D2C271A2400B6AE16 /* FirebaseStorage */,
 			);
 			productName = Calendarco;
 			productReference = C581B51A2C26CC34000BCD35 /* Calendarco.app */;
@@ -403,10 +403,10 @@
 			package = C57127342C27108F00B6AE16 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseCrashlytics;
 		};
-		C57127392C27108F00B6AE16 /* FirebaseDatabase */ = {
+		C571273D2C271A2400B6AE16 /* FirebaseStorage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C57127342C27108F00B6AE16 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseDatabase;
+			productName = FirebaseStorage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
