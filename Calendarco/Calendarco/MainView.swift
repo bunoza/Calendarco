@@ -19,7 +19,7 @@ struct MainView: View {
                     DatePicker("End Date", selection: $viewModel.endDate2, displayedComponents: [.date, .hourAndMinute])
                 }
             }
-            
+
             if let tempFileURL = tempFileURL {
                 ShareLink(item: tempFileURL) {
                     Text("Share Calendar Event")
@@ -44,10 +44,10 @@ struct MainView: View {
     func saveToTempFile() {
         viewModel.createICSData()
         guard let icsData = viewModel.icsData else { return }
-        
+
         let tempDirectory = FileManager.default.temporaryDirectory
         let tempFileURL = tempDirectory.appendingPathComponent("events.ics")
-        
+
         do {
             try icsData.write(to: tempFileURL)
             self.tempFileURL = tempFileURL
