@@ -6,75 +6,82 @@ struct MainView: View {
     @State private var expandedSections: Set<UUID> = []
 
     var body: some View {
-        VStack {
-            Form {
-                ForEach($viewModel.events) { $event in
-                    let isExpanded = Binding<Bool>(
-                        get: { expandedSections.contains(event.id) },
-                        set: { newValue in
-                            if newValue {
-                                expandedSections.insert(event.id)
-                            } else {
-                                expandedSections.remove(event.id)
+        NavigationStack {
+            VStack {
+                Form {
+                    ForEach($viewModel.events) { $event in
+                        let isExpanded = Binding<Bool>(
+                            get: { expandedSections.contains(event.id) },
+                            set: { newValue in
+                                if newValue {
+                                    expandedSections.insert(event.id)
+                                } else {
+                                    expandedSections.remove(event.id)
+                                }
+                            }
+                        )
+
+                        DisclosureGroup(isExpanded: isExpanded) {
+                            TextField("Event Title", text: $event.title)
+                                .onChange(of: event.title) { _ in
+                                    handleEventChange()
+                                }
+                            DatePicker("Start Date", selection: $event.startDate, displayedComponents: [.date, .hourAndMinute])
+                                .onChange(of: event.startDate) { _ in
+                                    handleEventChange()
+                                }
+                            DatePicker("End Date", selection: $event.endDate, displayedComponents: [.date, .hourAndMinute])
+                                .onChange(of: event.endDate) { _ in
+                                    handleEventChange()
+                                }
+                        } label: {
+                            Text(event.title.isEmpty ? "Event" : event.title)
+                        }
+                    }
+                    .onDelete(perform: deleteEvent)
+
+                    Section {} footer: {
+                        Button {
+                            withAnimation {
+                                viewModel.addEvent()
+                                handleEventChange()
+                            }
+                        } label: {
+                            HStack {
+                                Spacer()
+                                Text("Add Event")
+                                Spacer()
                             }
                         }
-                    )
-
-                    DisclosureGroup(isExpanded: isExpanded) {
-                        TextField("Event Title", text: $event.title)
-                            .onChange(of: event.title) { _ in
-                                handleEventChange()
-                            }
-                        DatePicker("Start Date", selection: $event.startDate, displayedComponents: [.date, .hourAndMinute])
-                            .onChange(of: event.startDate) { _ in
-                                handleEventChange()
-                            }
-                        DatePicker("End Date", selection: $event.endDate, displayedComponents: [.date, .hourAndMinute])
-                            .onChange(of: event.endDate) { _ in
-                                handleEventChange()
-                            }
-                    } label: {
-                        Text(event.title.isEmpty ? "Event" : event.title)
                     }
                 }
+                .onAppear {
+                    expandedSections = Set(viewModel.events.map { $0.id })
+                    deleteTempFile()
+                }
 
-                Button(action: {
-                    viewModel.addEvent()
-                    handleEventChange() // Ensure the file is deleted when a new event is added
-                }) {
-                    Text("Add Event")
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
+                Spacer()
+
+                if let tempFileURL = tempFileURL {
+                    ShareLink(item: tempFileURL) {
+                        Text("Share Calendar Events")
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                    }
+                } else {
+                    Button(action: saveToTempFile) {
+                        Text("Create and Share Calendar Events")
+                            .padding()
+                            .background(Color.green)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                    }
                 }
             }
-
-            if let tempFileURL = tempFileURL {
-                ShareLink(item: tempFileURL) {
-                    Text("Share Calendar Events")
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
-                }
-            } else {
-                Button(action: saveToTempFile) {
-                    Text("Create and Share Calendar Events")
-                        .padding()
-                        .background(Color.green)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
-                }
-            }
-        }
-        .padding()
-        .onAppear {
-            // Initialize expandedSections with all event IDs to expand them by default
-            expandedSections = Set(viewModel.events.map { $0.id })
-
-            // Cleanup any leftover temporary files
-            deleteTempFile()
+            .navigationTitle("Calendarco")
+            .navigationBarTitleDisplayMode(.large)
         }
     }
 
@@ -109,6 +116,12 @@ struct MainView: View {
             }
             self.tempFileURL = nil
         }
+    }
+
+    func deleteEvent(at offsets: IndexSet) {
+        offsets.map { viewModel.events[$0].id }.forEach { expandedSections.remove($0) }
+        viewModel.events.remove(atOffsets: offsets)
+        handleEventChange()
     }
 }
 
