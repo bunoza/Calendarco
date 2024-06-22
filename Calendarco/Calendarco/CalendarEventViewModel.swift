@@ -1,44 +1,46 @@
 import SwiftUI
 
+struct Event: Identifiable {
+    var id = UUID()
+    var title: String = ""
+    var startDate: Date = Date()
+    var endDate: Date = Date().addingTimeInterval(3600)
+}
+
 class CalendarEventViewModel: ObservableObject {
-    @Published var eventTitle1: String = ""
-    @Published var startDate1: Date = .init()
-    @Published var endDate1: Date = Date().addingTimeInterval(3600)
-
-    @Published var eventTitle2: String = ""
-    @Published var startDate2: Date = Date().addingTimeInterval(7200)
-    @Published var endDate2: Date = Date().addingTimeInterval(10800)
-
+    @Published var events: [Event] = [Event()]
     @Published var icsData: Data? = nil
-
+    
+    func addEvent() {
+        events.append(Event())
+    }
+    
     func createICSData() {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyyMMdd'T'HHmmss'Z'"
         dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
-
-        let startDateString1 = dateFormatter.string(from: startDate1)
-        let endDateString1 = dateFormatter.string(from: endDate1)
-
-        let startDateString2 = dateFormatter.string(from: startDate2)
-        let endDateString2 = dateFormatter.string(from: endDate2)
-
-        let icsContent = """
+        
+        var icsContent = """
         BEGIN:VCALENDAR
         VERSION:2.0
         CALSCALE:GREGORIAN
-        BEGIN:VEVENT
-        SUMMARY:\(eventTitle1)
-        DTSTART:\(startDateString1)
-        DTEND:\(endDateString1)
-        END:VEVENT
-        BEGIN:VEVENT
-        SUMMARY:\(eventTitle2)
-        DTSTART:\(startDateString2)
-        DTEND:\(endDateString2)
-        END:VEVENT
-        END:VCALENDAR
         """
-
+        
+        for event in events {
+            let startDateString = dateFormatter.string(from: event.startDate)
+            let endDateString = dateFormatter.string(from: event.endDate)
+            icsContent += """
+            
+            BEGIN:VEVENT
+            SUMMARY:\(event.title)
+            DTSTART:\(startDateString)
+            DTEND:\(endDateString)
+            END:VEVENT
+            """
+        }
+        
+        icsContent += "\nEND:VCALENDAR"
+        
         icsData = icsContent.data(using: .utf8)
     }
 }
