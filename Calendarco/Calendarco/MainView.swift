@@ -32,19 +32,25 @@ struct MainView: View {
         }
     }
     
+    @ViewBuilder
     private var showQRCodeButton: some View {
-        Button(action: { showQRCode = true }) {
-            Text("Show QR Code")
-                .font(.title3)
-                .padding(6)
-        }
-        .buttonStyle(BorderedProminentButtonStyle())
-        .disabled(viewModel.downloadURL == nil)
-        .sheet(isPresented: $showQRCode) {
-            if let url = viewModel.downloadURL {
-                QRCodeView(url: url)
-                    .presentationDetents([.medium])
+        if viewModel.downloadURL != nil {
+            Button(action: { showQRCode = true }) {
+                Text("Show QR Code")
+                    .font(.title3)
+                    .padding(6)
             }
+            .buttonStyle(BorderedProminentButtonStyle())
+            .sheet(isPresented: $showQRCode) {
+                if let url = viewModel.downloadURL {
+                    QRCodeView(url: url)
+                        .presentationDetents([.medium])
+                }
+            }
+        } else {
+            ProgressView()
+                .progressViewStyle(.circular)
+                .padding()
         }
     }
     
@@ -70,6 +76,14 @@ struct MainView: View {
                         DisclosureGroup(isExpanded: isExpanded) {
                             TextField("Event Title", text: $event.title)
                                 .onChange(of: event.title) {
+                                    viewModel.handleEventChange()
+                                }
+                            TextField("Event Description", text: $event.description)
+                                .onChange(of: event.description) {
+                                    viewModel.handleEventChange()
+                                }
+                            TextField("Event URL", text: $event.url)
+                                .onChange(of: event.url) {
                                     viewModel.handleEventChange()
                                 }
                             DatePicker("Start Date", selection: $event.startDate, displayedComponents: [.date, .hourAndMinute])

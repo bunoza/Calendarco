@@ -4,6 +4,8 @@ import FirebaseStorage
 struct Event: Identifiable {
     var id = UUID()
     var title: String = ""
+    var description: String = ""
+    var url: String = ""
     var startDate: Date = .init()
     var endDate: Date = Date().addingTimeInterval(3600)
 }
@@ -29,6 +31,7 @@ class MainViewModel: ObservableObject {
         BEGIN:VCALENDAR
         VERSION:2.0
         CALSCALE:GREGORIAN
+        METHOD:PUBLISH
         """
         
         for event in events {
@@ -40,6 +43,8 @@ class MainViewModel: ObservableObject {
             SUMMARY:\(event.title)
             DTSTART:\(startDateString)
             DTEND:\(endDateString)
+            DESCRIPTION:\(event.description)
+            URL: \(event.url)
             END:VEVENT
             """
         }
@@ -102,7 +107,7 @@ class MainViewModel: ObservableObject {
 
     private func uploadFileToFirebaseStorage(fileURL: URL) {
         let storage = Storage.storage()
-        let storageRef = storage.reference().child("events/\(UUID().uuidString).ics")
+        let storageRef = storage.reference().child("events/\(UUID().uuidString)")
         
         storageRef.putFile(from: fileURL, metadata: nil) { metadata, error in
             if let error = error {
