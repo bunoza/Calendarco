@@ -1,13 +1,14 @@
-import SwiftUI
 import Firebase
 import FirebaseStorage
+import SwiftUI
 
 struct MainView: View {
     @StateObject private var viewModel = MainViewModel()
     @State private var expandedSections: Set<UUID> = []
     @State private var showQRCode = false
     @State private var fileName: String = ""
-    
+    @State private var recurrenceRule: RecurrenceOption = .none
+
     private var generateFileButton: some View {
         Button {
             viewModel.saveToTempFile(fileName: fileName)
@@ -19,7 +20,7 @@ struct MainView: View {
         .buttonStyle(BorderedProminentButtonStyle())
         .disabled(viewModel.events.isEmpty)
     }
-    
+
     @ViewBuilder
     private var shareButton: some View {
         if let tempFileURL = viewModel.tempFileURL {
@@ -31,7 +32,7 @@ struct MainView: View {
             .buttonStyle(BorderedProminentButtonStyle())
         }
     }
-    
+
     @ViewBuilder
     private var showQRCodeButton: some View {
         if viewModel.downloadURL != nil {
@@ -53,7 +54,7 @@ struct MainView: View {
                 .padding()
         }
     }
-    
+
     var body: some View {
         NavigationStack {
             VStack {
@@ -72,7 +73,7 @@ struct MainView: View {
                                 }
                             }
                         )
-                        
+
                         DisclosureGroup(isExpanded: isExpanded) {
                             TextField("Event Title", text: $event.title)
                                 .onChange(of: event.title) {
@@ -94,12 +95,21 @@ struct MainView: View {
                                 .onChange(of: event.endDate) {
                                     viewModel.handleEventChange()
                                 }
+                            Picker("Recurrence", selection: $event.recurrenceRule) {
+                                ForEach(RecurrenceOption.allCases, id: \.self) {
+                                    Text($0.rawValue)
+                                        .tag($0)
+                                }
+                            }
+                            .onChange(of: event.recurrenceRule) {
+                                viewModel.handleEventChange()
+                            }
                         } label: {
                             Text(event.title.isEmpty ? "Event" : event.title)
                         }
                     }
                     .onDelete(perform: deleteEvent)
-                    
+
                     Section {} footer: {
                         Button {
                             withAnimation {
@@ -135,7 +145,7 @@ struct MainView: View {
             .navigationBarTitleDisplayMode(.large)
         }
     }
-    
+
     private func deleteEvent(at offsets: IndexSet) {
         offsets.map { viewModel.events[$0].id }.forEach { expandedSections.remove($0) }
         viewModel.events.remove(atOffsets: offsets)

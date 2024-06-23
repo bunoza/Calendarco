@@ -14,11 +14,11 @@
 		C57127402C27272200B6AE16 /* QRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C571273F2C27272200B6AE16 /* QRCodeView.swift */; };
 		C57127422C27308F00B6AE16 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57127412C27308F00B6AE16 /* StorageManager.swift */; };
 		C581B51E2C26CC34000BCD35 /* CalendarcoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C581B51D2C26CC34000BCD35 /* CalendarcoApp.swift */; };
-		C581B5202C26CC34000BCD35 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C581B51F2C26CC34000BCD35 /* ContentView.swift */; };
-		C581B5222C26CC34000BCD35 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = C581B5212C26CC34000BCD35 /* Item.swift */; };
 		C581B5242C26CC35000BCD35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C581B5232C26CC35000BCD35 /* Assets.xcassets */; };
 		C581B5272C26CC35000BCD35 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C581B5262C26CC35000BCD35 /* Preview Assets.xcassets */; };
 		C581B52E2C26CC76000BCD35 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C581B52D2C26CC76000BCD35 /* MainView.swift */; };
+		C5EC2BD02C285E2400531287 /* RecurrenceOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5EC2BCF2C285E2400531287 /* RecurrenceOption.swift */; };
+		C5EC2BD52C285F9B00531287 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5EC2BD42C285F9B00531287 /* Event.swift */; };
 		C5FD50E22C26D5FA0018C543 /* CalendarEventDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FD50E12C26D5FA0018C543 /* CalendarEventDocument.swift */; };
 		C5FD50E42C26D60F0018C543 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FD50E32C26D60F0018C543 /* MainViewModel.swift */; };
 /* End PBXBuildFile section */
@@ -29,11 +29,11 @@
 		C57127412C27308F00B6AE16 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		C581B51A2C26CC34000BCD35 /* Calendarco.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Calendarco.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C581B51D2C26CC34000BCD35 /* CalendarcoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarcoApp.swift; sourceTree = "<group>"; };
-		C581B51F2C26CC34000BCD35 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		C581B5212C26CC34000BCD35 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		C581B5232C26CC35000BCD35 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C581B5262C26CC35000BCD35 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C581B52D2C26CC76000BCD35 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		C5EC2BCF2C285E2400531287 /* RecurrenceOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurrenceOption.swift; sourceTree = "<group>"; };
+		C5EC2BD42C285F9B00531287 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		C5FD50E12C26D5FA0018C543 /* CalendarEventDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarEventDocument.swift; sourceTree = "<group>"; };
 		C5FD50E32C26D60F0018C543 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -71,17 +71,13 @@
 		C581B51C2C26CC34000BCD35 /* Calendarco */ = {
 			isa = PBXGroup;
 			children = (
+				C5EC2BD72C285FF600531287 /* Resources */,
+				C5EC2BD62C285FDD00531287 /* Network */,
+				C5EC2BD32C285F8B00531287 /* Models */,
+				C5EC2BD22C285F7D00531287 /* SupportingViews */,
+				C5EC2BD12C285F6200531287 /* MainModule */,
 				C57127322C270F8500B6AE16 /* GoogleService-Info.plist */,
 				C581B51D2C26CC34000BCD35 /* CalendarcoApp.swift */,
-				C581B51F2C26CC34000BCD35 /* ContentView.swift */,
-				C581B5212C26CC34000BCD35 /* Item.swift */,
-				C581B5232C26CC35000BCD35 /* Assets.xcassets */,
-				C581B5252C26CC35000BCD35 /* Preview Content */,
-				C581B52D2C26CC76000BCD35 /* MainView.swift */,
-				C5FD50E12C26D5FA0018C543 /* CalendarEventDocument.swift */,
-				C5FD50E32C26D60F0018C543 /* MainViewModel.swift */,
-				C571273F2C27272200B6AE16 /* QRCodeView.swift */,
-				C57127412C27308F00B6AE16 /* StorageManager.swift */,
 			);
 			path = Calendarco;
 			sourceTree = "<group>";
@@ -92,6 +88,50 @@
 				C581B5262C26CC35000BCD35 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		C5EC2BD12C285F6200531287 /* MainModule */ = {
+			isa = PBXGroup;
+			children = (
+				C5FD50E32C26D60F0018C543 /* MainViewModel.swift */,
+				C581B52D2C26CC76000BCD35 /* MainView.swift */,
+			);
+			path = MainModule;
+			sourceTree = "<group>";
+		};
+		C5EC2BD22C285F7D00531287 /* SupportingViews */ = {
+			isa = PBXGroup;
+			children = (
+				C571273F2C27272200B6AE16 /* QRCodeView.swift */,
+			);
+			path = SupportingViews;
+			sourceTree = "<group>";
+		};
+		C5EC2BD32C285F8B00531287 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C5FD50E12C26D5FA0018C543 /* CalendarEventDocument.swift */,
+				C5EC2BCF2C285E2400531287 /* RecurrenceOption.swift */,
+				C5EC2BD42C285F9B00531287 /* Event.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		C5EC2BD62C285FDD00531287 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				C57127412C27308F00B6AE16 /* StorageManager.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		C5EC2BD72C285FF600531287 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C581B5232C26CC35000BCD35 /* Assets.xcassets */,
+				C581B5252C26CC35000BCD35 /* Preview Content */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -173,13 +213,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C581B5202C26CC34000BCD35 /* ContentView.swift in Sources */,
 				C581B52E2C26CC76000BCD35 /* MainView.swift in Sources */,
-				C581B5222C26CC34000BCD35 /* Item.swift in Sources */,
 				C57127402C27272200B6AE16 /* QRCodeView.swift in Sources */,
+				C5EC2BD52C285F9B00531287 /* Event.swift in Sources */,
 				C5FD50E42C26D60F0018C543 /* MainViewModel.swift in Sources */,
 				C5FD50E22C26D5FA0018C543 /* CalendarEventDocument.swift in Sources */,
 				C581B51E2C26CC34000BCD35 /* CalendarcoApp.swift in Sources */,
+				C5EC2BD02C285E2400531287 /* RecurrenceOption.swift in Sources */,
 				C57127422C27308F00B6AE16 /* StorageManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -313,7 +353,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Calendarco/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Calendarco/Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = 8Y9TGD2PJD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -343,7 +383,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Calendarco/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Calendarco/Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = 8Y9TGD2PJD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
