@@ -8,6 +8,7 @@ struct NewEventView: View {
     @State private var showQRCode = false
     @State private var fileName: String = ""
     @State private var recurrenceRule: RecurrenceOption = .none
+    @EnvironmentObject private var mainViewModel: MainViewModel
 
     private var generateFileButton: some View {
         Button {
@@ -97,6 +98,9 @@ struct NewEventView: View {
                     expandedSections = Set(viewModel.events.map { $0.id })
                     viewModel.deleteTempFile()
                 }
+                .onChange(of: mainViewModel.events) { newEvents in
+                    viewModel.events = newEvents
+                }
             }
             .navigationTitle("New Events")
             .navigationBarTitleDisplayMode(.large)
@@ -113,5 +117,6 @@ struct NewEventView: View {
 struct NewEventView_Previews: PreviewProvider {
     static var previews: some View {
         NewEventView()
+            .environmentObject(MainViewModel())
     }
 }

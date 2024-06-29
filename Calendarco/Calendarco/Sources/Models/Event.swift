@@ -1,7 +1,7 @@
 
 import Foundation
 
-struct Event: Identifiable {
+struct Event: Identifiable, Equatable {
     var id = UUID()
     var title: String = ""
     var description: String = ""
