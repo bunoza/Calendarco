@@ -39,6 +39,7 @@ struct EventsHistoryView: View {
                                                 Text("Add to my calendar")
                                             }
                                         }
+                                        .disabled(event.expirationDate < Date())
                                     }
                                     Button {
                                         withAnimation {
