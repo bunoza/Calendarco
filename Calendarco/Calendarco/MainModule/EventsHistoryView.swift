@@ -2,20 +2,27 @@ import SwiftUI
 import SwiftData
 
 struct EventsHistoryView: View {
-    @Query(sort: \EventEntity.creationDate, order: .reverse) private var events: [EventEntity]
     @Environment(\.modelContext) private var context: ModelContext
-    
+    @Query(sort: \EventEntity.creationDate, order: .reverse) private var events: [EventEntity]
+
+    private var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        return formatter
+    }
+
     var body: some View {
         List {
             ForEach(events) { event in
                 VStack(alignment: .leading) {
-                    Text("File Name: \(event.title)")
+                    Text("\(event.title)")
                         .font(.headline)
-                    Text("Number of Events: \(event.descriptionText)")
+                    Text("\(event.descriptionText)")
                         .font(.subheadline)
-                    Text("Creation Date: \(event.creationDate, formatter: dateFormatter)")
+                    Text("Creation on: \(event.creationDate, formatter: dateFormatter)")
                         .font(.subheadline)
-                    Text("Expiration Date: \(event.expirationDate, formatter: dateFormatter)")
+                    Text("Expires on: \(event.expirationDate, formatter: dateFormatter)")
                         .font(.subheadline)
                 }
             }
@@ -30,13 +37,6 @@ struct EventsHistoryView: View {
             context.delete(event)
             try? context.save()
         }
-    }
-    
-    private var dateFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .short
-        return formatter
     }
 }
 

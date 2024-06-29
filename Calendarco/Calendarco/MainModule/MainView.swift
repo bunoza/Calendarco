@@ -8,6 +8,53 @@ struct MainView: View {
     @State private var showQRCode = false
     @State private var fileName: String = ""
     @State private var recurrenceRule: RecurrenceOption = .none
+    
+    private var generateFileButton: some View {
+        Button {
+            viewModel.saveToTempFile(fileName: fileName, context: context)
+        } label: {
+            Text("Generate Calendar File")
+                .font(.title3)
+                .padding(6)
+        }
+        .buttonStyle(BorderedProminentButtonStyle())
+        .disabled(viewModel.events.isEmpty)
+        .padding(.bottom)
+    }
+
+    @ViewBuilder
+    private var shareButton: some View {
+        if let tempFileURL = viewModel.tempFileURL {
+            ShareLink(item: tempFileURL) {
+                Text("Share File")
+                    .font(.title3)
+                    .padding(6)
+            }
+            .buttonStyle(BorderedProminentButtonStyle())
+        }
+    }
+
+    @ViewBuilder
+    private var showQRCodeButton: some View {
+        if viewModel.downloadURL != nil {
+            Button(action: { showQRCode = true }) {
+                Text("Show QR Code")
+                    .font(.title3)
+                    .padding(6)
+            }
+            .buttonStyle(BorderedProminentButtonStyle())
+            .sheet(isPresented: $showQRCode) {
+                if let url = viewModel.downloadURL {
+                    QRCodeView(url: url)
+                        .presentationDetents([.medium])
+                }
+            }
+        } else {
+            ProgressView()
+                .progressViewStyle(.circular)
+                .padding()
+        }
+    }
 
     var body: some View {
         TabView {
@@ -113,53 +160,6 @@ struct MainView: View {
                 Image(systemName: "clock")
                 Text("Events History")
             }
-        }
-    }
-
-    private var generateFileButton: some View {
-        Button {
-            viewModel.saveToTempFile(fileName: fileName, context: context)
-        } label: {
-            Text("Generate Calendar File")
-                .font(.title3)
-                .padding(6)
-        }
-        .buttonStyle(BorderedProminentButtonStyle())
-        .disabled(viewModel.events.isEmpty)
-        .padding(.bottom)
-    }
-
-    @ViewBuilder
-    private var shareButton: some View {
-        if let tempFileURL = viewModel.tempFileURL {
-            ShareLink(item: tempFileURL) {
-                Text("Share File")
-                    .font(.title3)
-                    .padding(6)
-            }
-            .buttonStyle(BorderedProminentButtonStyle())
-        }
-    }
-
-    @ViewBuilder
-    private var showQRCodeButton: some View {
-        if viewModel.downloadURL != nil {
-            Button(action: { showQRCode = true }) {
-                Text("Show QR Code")
-                    .font(.title3)
-                    .padding(6)
-            }
-            .buttonStyle(BorderedProminentButtonStyle())
-            .sheet(isPresented: $showQRCode) {
-                if let url = viewModel.downloadURL {
-                    QRCodeView(url: url)
-                        .presentationDetents([.medium])
-                }
-            }
-        } else {
-            ProgressView()
-                .progressViewStyle(.circular)
-                .padding()
         }
     }
 
