@@ -29,7 +29,6 @@ class NewEventViewModel: ObservableObject {
             let endDateString = dateFormatter.string(from: event.endDate)
 
             icsContent += """
-
             BEGIN:VEVENT
             SUMMARY:\(event.title)
             DTSTART:\(startDateString)

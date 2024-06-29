@@ -11,6 +11,7 @@
 		C55751322C301DC9002BBA6E /* EventEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55751312C301DC9002BBA6E /* EventEntity.swift */; };
 		C55751382C302EB6002BBA6E /* NewEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55751372C302EB6002BBA6E /* NewEventView.swift */; };
 		C557513A2C302F7B002BBA6E /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55751392C302F7B002BBA6E /* MainViewModel.swift */; };
+		C557513D2C303A64002BBA6E /* EventDisclosureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C557513C2C303A64002BBA6E /* EventDisclosureView.swift */; };
 		C57127332C270F8500B6AE16 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C57127322C270F8500B6AE16 /* GoogleService-Info.plist */; };
 		C57127362C27108F00B6AE16 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C57127352C27108F00B6AE16 /* FirebaseAnalytics */; };
 		C57127382C27108F00B6AE16 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = C57127372C27108F00B6AE16 /* FirebaseCrashlytics */; };
@@ -32,6 +33,7 @@
 		C55751312C301DC9002BBA6E /* EventEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEntity.swift; sourceTree = "<group>"; };
 		C55751372C302EB6002BBA6E /* NewEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEventView.swift; sourceTree = "<group>"; };
 		C55751392C302F7B002BBA6E /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		C557513C2C303A64002BBA6E /* EventDisclosureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDisclosureView.swift; sourceTree = "<group>"; };
 		C57127322C270F8500B6AE16 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C571273F2C27272200B6AE16 /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
 		C57127412C27308F00B6AE16 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
@@ -67,7 +69,6 @@
 				C55751352C302E87002BBA6E /* HistoryModule */,
 				C5EC2BD62C285FDD00531287 /* Network */,
 				C5EC2BD32C285F8B00531287 /* Models */,
-				C5EC2BD22C285F7D00531287 /* SupportingViews */,
 				C5EC2BD12C285F6200531287 /* MainModule */,
 				C581B51D2C26CC34000BCD35 /* CalendarcoApp.swift */,
 			);
@@ -85,10 +86,28 @@
 		C55751362C302EA5002BBA6E /* NewEventModule */ = {
 			isa = PBXGroup;
 			children = (
+				C557513B2C303A5A002BBA6E /* SupportingViews */,
 				C5FD50E32C26D60F0018C543 /* NewEventViewModel.swift */,
 				C55751372C302EB6002BBA6E /* NewEventView.swift */,
 			);
 			path = NewEventModule;
+			sourceTree = "<group>";
+		};
+		C557513B2C303A5A002BBA6E /* SupportingViews */ = {
+			isa = PBXGroup;
+			children = (
+				C571273F2C27272200B6AE16 /* QRCodeView.swift */,
+				C557513C2C303A64002BBA6E /* EventDisclosureView.swift */,
+			);
+			path = SupportingViews;
+			sourceTree = "<group>";
+		};
+		C557513E2C303B72002BBA6E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C5EC2BCF2C285E2400531287 /* RecurrenceOption.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		C581B5112C26CC34000BCD35 = {
@@ -128,25 +147,17 @@
 		C5EC2BD12C285F6200531287 /* MainModule */ = {
 			isa = PBXGroup;
 			children = (
+				C557513E2C303B72002BBA6E /* Models */,
 				C581B52D2C26CC76000BCD35 /* MainView.swift */,
 				C55751392C302F7B002BBA6E /* MainViewModel.swift */,
 			);
 			path = MainModule;
 			sourceTree = "<group>";
 		};
-		C5EC2BD22C285F7D00531287 /* SupportingViews */ = {
-			isa = PBXGroup;
-			children = (
-				C571273F2C27272200B6AE16 /* QRCodeView.swift */,
-			);
-			path = SupportingViews;
-			sourceTree = "<group>";
-		};
 		C5EC2BD32C285F8B00531287 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				C5FD50E12C26D5FA0018C543 /* CalendarEventDocument.swift */,
-				C5EC2BCF2C285E2400531287 /* RecurrenceOption.swift */,
 				C5EC2BD42C285F9B00531287 /* Event.swift */,
 				C55751312C301DC9002BBA6E /* EventEntity.swift */,
 			);
@@ -259,6 +270,7 @@
 				C581B51E2C26CC34000BCD35 /* CalendarcoApp.swift in Sources */,
 				C5EC2BD02C285E2400531287 /* RecurrenceOption.swift in Sources */,
 				C55751302C301A46002BBA6E /* EventsHistoryView.swift in Sources */,
+				C557513D2C303A64002BBA6E /* EventDisclosureView.swift in Sources */,
 				C57127422C27308F00B6AE16 /* StorageManager.swift in Sources */,
 				C557513A2C302F7B002BBA6E /* MainViewModel.swift in Sources */,
 			);
