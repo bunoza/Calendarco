@@ -13,22 +13,24 @@ struct EventsHistoryView: View {
     }
 
     var body: some View {
-        List {
-            ForEach(events) { event in
-                VStack(alignment: .leading) {
-                    Text("\(event.title)")
-                        .font(.headline)
-                    Text("\(event.descriptionText)")
-                        .font(.subheadline)
-                    Text("Creation on: \(event.creationDate, formatter: dateFormatter)")
-                        .font(.subheadline)
-                    Text("Expires on: \(event.expirationDate, formatter: dateFormatter)")
-                        .font(.subheadline)
+        NavigationView {
+            List {
+                ForEach(events) { event in
+                    VStack(alignment: .leading) {
+                        Text("\(event.title)")
+                            .font(.headline)
+                        Text("\(event.descriptionText)")
+                            .font(.subheadline)
+                        Text("Creation on: \(event.creationDate, formatter: dateFormatter)")
+                            .font(.subheadline)
+                        Text("Expires on: \(event.expirationDate, formatter: dateFormatter)")
+                            .font(.subheadline)
+                    }
                 }
+                .onDelete(perform: deleteItems)
             }
-            .onDelete(perform: deleteItems)
+            .navigationTitle("Events History")
         }
-        .navigationTitle("Events History")
     }
 
     private func deleteItems(at offsets: IndexSet) {
