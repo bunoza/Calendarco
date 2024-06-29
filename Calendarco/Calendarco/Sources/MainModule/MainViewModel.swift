@@ -1,6 +1,6 @@
 import FirebaseStorage
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 class MainViewModel: ObservableObject {
     @Published var events: [Event] = [Event()]
@@ -29,7 +29,7 @@ class MainViewModel: ObservableObject {
             let endDateString = dateFormatter.string(from: event.endDate)
 
             icsContent += """
-            
+
             BEGIN:VEVENT
             SUMMARY:\(event.title)
             DTSTART:\(startDateString)

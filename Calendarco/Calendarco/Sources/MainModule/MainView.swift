@@ -1,5 +1,5 @@
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct MainView: View {
     @Environment(\.modelContext) private var context
@@ -8,7 +8,7 @@ struct MainView: View {
     @State private var showQRCode = false
     @State private var fileName: String = ""
     @State private var recurrenceRule: RecurrenceOption = .none
-    
+
     private var generateFileButton: some View {
         Button {
             viewModel.saveToTempFile(fileName: fileName, context: context)

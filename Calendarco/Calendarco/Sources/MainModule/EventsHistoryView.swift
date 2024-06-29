@@ -1,5 +1,5 @@
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct EventsHistoryView: View {
     @Environment(\.modelContext) private var context: ModelContext
@@ -30,7 +30,7 @@ struct EventsHistoryView: View {
         }
         .navigationTitle("Events History")
     }
-    
+
     private func deleteItems(at offsets: IndexSet) {
         for index in offsets {
             let event = events[index]
