@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C55751302C301A46002BBA6E /* EventsHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C557512F2C301A46002BBA6E /* EventsHistoryView.swift */; };
+		C55751322C301DC9002BBA6E /* EventEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55751312C301DC9002BBA6E /* EventEntity.swift */; };
 		C57127332C270F8500B6AE16 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C57127322C270F8500B6AE16 /* GoogleService-Info.plist */; };
 		C57127362C27108F00B6AE16 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C57127352C27108F00B6AE16 /* FirebaseAnalytics */; };
 		C57127382C27108F00B6AE16 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = C57127372C27108F00B6AE16 /* FirebaseCrashlytics */; };
@@ -24,6 +26,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C557512F2C301A46002BBA6E /* EventsHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsHistoryView.swift; sourceTree = "<group>"; };
+		C55751312C301DC9002BBA6E /* EventEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEntity.swift; sourceTree = "<group>"; };
 		C57127322C270F8500B6AE16 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C571273F2C27272200B6AE16 /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
 		C57127412C27308F00B6AE16 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
@@ -95,6 +99,7 @@
 			children = (
 				C5FD50E32C26D60F0018C543 /* MainViewModel.swift */,
 				C581B52D2C26CC76000BCD35 /* MainView.swift */,
+				C557512F2C301A46002BBA6E /* EventsHistoryView.swift */,
 			);
 			path = MainModule;
 			sourceTree = "<group>";
@@ -113,6 +118,7 @@
 				C5FD50E12C26D5FA0018C543 /* CalendarEventDocument.swift */,
 				C5EC2BCF2C285E2400531287 /* RecurrenceOption.swift */,
 				C5EC2BD42C285F9B00531287 /* Event.swift */,
+				C55751312C301DC9002BBA6E /* EventEntity.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -218,8 +224,10 @@
 				C5EC2BD52C285F9B00531287 /* Event.swift in Sources */,
 				C5FD50E42C26D60F0018C543 /* MainViewModel.swift in Sources */,
 				C5FD50E22C26D5FA0018C543 /* CalendarEventDocument.swift in Sources */,
+				C55751322C301DC9002BBA6E /* EventEntity.swift in Sources */,
 				C581B51E2C26CC34000BCD35 /* CalendarcoApp.swift in Sources */,
 				C5EC2BD02C285E2400531287 /* RecurrenceOption.swift in Sources */,
+				C55751302C301A46002BBA6E /* EventsHistoryView.swift in Sources */,
 				C57127422C27308F00B6AE16 /* StorageManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

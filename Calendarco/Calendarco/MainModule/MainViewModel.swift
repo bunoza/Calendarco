@@ -1,13 +1,12 @@
 import FirebaseStorage
 import SwiftUI
+import SwiftData
 
 class MainViewModel: ObservableObject {
     @Published var events: [Event] = [Event()]
     @Published var icsData: Data? = nil
     @Published var tempFileURL: URL? = nil
     @Published var downloadURL: URL? = nil
-
-    let manager = StorageManager()
 
     func addEvent() {
         events.append(Event())
@@ -30,7 +29,7 @@ class MainViewModel: ObservableObject {
             let endDateString = dateFormatter.string(from: event.endDate)
 
             icsContent += """
-
+            
             BEGIN:VEVENT
             SUMMARY:\(event.title)
             DTSTART:\(startDateString)
@@ -43,19 +42,11 @@ class MainViewModel: ObservableObject {
         }
 
         icsContent += "\nEND:VCALENDAR"
-
         icsData = icsContent.data(using: .utf8)
     }
 
     func deleteOldFiles() {
-        manager.deleteOldFiles { result in
-            switch result {
-            case .success():
-                print("Successfully deleted old files")
-            case let .failure(error):
-                print("Failed to delete old files: \(error)")
-            }
-        }
+        // Implement your logic to delete old files if needed.
     }
 
     func handleEventChange() {
@@ -66,19 +57,23 @@ class MainViewModel: ObservableObject {
         }
     }
 
-    func saveToTempFile(fileName: String) {
+    func saveToTempFile(fileName: String, context: ModelContext) {
         createICSData()
         guard let icsData = icsData else { return }
 
         let tempDirectory = FileManager.default.temporaryDirectory
-        let tempFileURL = tempDirectory.appendingPathComponent(fileName.isEmpty ? "generated_events.ics" : fileName + ".ics")
+        let finalFileName = fileName.isEmpty ? "generated_events.ics" : "\(fileName).ics"
+        let tempFileURL = tempDirectory.appendingPathComponent(finalFileName)
 
         do {
             try icsData.write(to: tempFileURL)
-
             withAnimation {
                 self.tempFileURL = tempFileURL
             }
+
+            let newFile = EventEntity(title: finalFileName, descriptionText: "\(events.count) events", url: "", recurrenceRule: "", startDate: Date(), endDate: Date().addingTimeInterval(3600), creationDate: Date(), expirationDate: Calendar.current.date(byAdding: .day, value: 7, to: Date())!)
+            context.insert(newFile)
+            try context.save()
 
             uploadFileToFirebaseStorage(fileURL: tempFileURL)
         } catch {
@@ -87,20 +82,19 @@ class MainViewModel: ObservableObject {
     }
 
     func deleteTempFile() {
-        if let tempFileURL = tempFileURL {
-            do {
-                try FileManager.default.removeItem(at: tempFileURL)
-                print("Temporary file deleted: \(tempFileURL)")
-            } catch {
-                print("Failed to delete temporary file: \(error)")
-            }
-            self.tempFileURL = nil
+        guard let tempFileURL = tempFileURL else { return }
+
+        do {
+            try FileManager.default.removeItem(at: tempFileURL)
+            print("Temporary file deleted: \(tempFileURL)")
+        } catch {
+            print("Failed to delete temporary file: \(error)")
         }
+        self.tempFileURL = nil
     }
 
     private func uploadFileToFirebaseStorage(fileURL: URL) {
-        let storage = Storage.storage()
-        let storageRef = storage.reference().child("events/\(UUID().uuidString)")
+        let storageRef = Storage.storage().reference().child("events/\(UUID().uuidString)")
 
         storageRef.putFile(from: fileURL, metadata: nil) { _, error in
             if let error = error {

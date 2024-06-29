@@ -21,7 +21,7 @@ struct QRCodeView: View {
             Spacer()
 
             Text("Scan to download the calendar file.")
-            Text("File is available for 30 days.")
+            Text("File is available for 7 days.")
 
             if let qrCodeImage = generateQRCode(from: url.absoluteString) {
                 Image(uiImage: qrCodeImage)

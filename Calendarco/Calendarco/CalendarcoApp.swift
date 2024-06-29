@@ -9,6 +9,7 @@ struct CalendarcoApp: App {
     var body: some Scene {
         WindowGroup {
             MainView()
+                .modelContainer(for: [EventEntity.self])
         }
     }
 }
