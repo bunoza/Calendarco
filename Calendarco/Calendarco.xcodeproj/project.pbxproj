@@ -56,6 +56,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C55751342C302ABF002BBA6E /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
 		C581B5112C26CC34000BCD35 = {
 			isa = PBXGroup;
 			children = (
@@ -75,13 +82,9 @@
 		C581B51C2C26CC34000BCD35 /* Calendarco */ = {
 			isa = PBXGroup;
 			children = (
+				C55751342C302ABF002BBA6E /* Sources */,
 				C5EC2BD72C285FF600531287 /* Resources */,
-				C5EC2BD62C285FDD00531287 /* Network */,
-				C5EC2BD32C285F8B00531287 /* Models */,
-				C5EC2BD22C285F7D00531287 /* SupportingViews */,
-				C5EC2BD12C285F6200531287 /* MainModule */,
 				C57127322C270F8500B6AE16 /* GoogleService-Info.plist */,
-				C581B51D2C26CC34000BCD35 /* CalendarcoApp.swift */,
 			);
 			path = Calendarco;
 			sourceTree = "<group>";
@@ -134,6 +137,11 @@
 		C5EC2BD72C285FF600531287 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				C5EC2BD62C285FDD00531287 /* Network */,
+				C5EC2BD32C285F8B00531287 /* Models */,
+				C5EC2BD22C285F7D00531287 /* SupportingViews */,
+				C5EC2BD12C285F6200531287 /* MainModule */,
+				C581B51D2C26CC34000BCD35 /* CalendarcoApp.swift */,
 				C581B5232C26CC35000BCD35 /* Assets.xcassets */,
 				C581B5252C26CC35000BCD35 /* Preview Content */,
 			);
