@@ -17,14 +17,18 @@ struct EventsHistoryView: View {
             List {
                 ForEach(events) { event in
                     VStack(alignment: .leading) {
-                        Text("\(event.title)")
+                        Text(event.title)
                             .font(.headline)
-                        Text("\(event.descriptionText)")
+                        Text(event.descriptionText)
                             .font(.subheadline)
-                        Text("Creation on: \(event.creationDate, formatter: dateFormatter)")
+                        Text("Created on: \(event.creationDate, formatter: dateFormatter)")
                             .font(.subheadline)
                         Text("Expires on: \(event.expirationDate, formatter: dateFormatter)")
                             .font(.subheadline)
+                        if let urlString = event.downloadURL, let url = URL(string: urlString) {
+                            Link("Open File", destination: url)
+                                .foregroundColor(.blue)
+                        }
                     }
                 }
                 .onDelete(perform: deleteItems)

@@ -29,6 +29,7 @@ class NewEventViewModel: ObservableObject {
             let endDateString = dateFormatter.string(from: event.endDate)
 
             icsContent += """
+
             BEGIN:VEVENT
             SUMMARY:\(event.title)
             DTSTART:\(startDateString)
@@ -66,13 +67,53 @@ class NewEventViewModel: ObservableObject {
                 self.tempFileURL = tempFileURL
             }
 
-            let newFile = EventEntity(title: finalFileName, descriptionText: "\(events.count) events", url: "", recurrenceRule: "", startDate: Date(), endDate: Date().addingTimeInterval(3600), creationDate: Date(), expirationDate: Calendar.current.date(byAdding: .day, value: 7, to: Date())!)
-            context.insert(newFile)
-            try context.save()
-
-            uploadFileToFirebaseStorage(fileURL: tempFileURL)
+            uploadFileToFirebaseStorage(fileURL: tempFileURL) { downloadURL in
+                let newFile = EventEntity(
+                    title: finalFileName,
+                    descriptionText: "\(self.events.count) events",
+                    url: "",
+                    recurrenceRule: "",
+                    startDate: Date(),
+                    endDate: Date().addingTimeInterval(3600),
+                    creationDate: Date(),
+                    expirationDate: Calendar.current.date(byAdding: .day, value: 7, to: Date())!,
+                    downloadURL: downloadURL?.absoluteString // Save the download URL
+                )
+                context.insert(newFile)
+                try? context.save()
+            }
         } catch {
             print("Failed to write .ics file to temporary directory: \(error)")
+        }
+    }
+
+    private func uploadFileToFirebaseStorage(fileURL: URL, completion: @escaping (URL?) -> Void) {
+        let storageRef = Storage.storage().reference().child("events/\(UUID().uuidString)")
+
+        storageRef.putFile(from: fileURL, metadata: nil) { _, error in
+            if let error = error {
+                print("Failed to upload file to Firebase Storage: \(error)")
+                completion(nil)
+                return
+            }
+
+            storageRef.downloadURL { url, error in
+                if let error = error {
+                    print("Failed to get download URL: \(error)")
+                    completion(nil)
+                    return
+                }
+
+                guard let downloadURL = url else {
+                    print("Download URL is nil")
+                    completion(nil)
+                    return
+                }
+
+                print("File successfully uploaded to Firebase Storage: \(downloadURL)")
+                self.downloadURL = downloadURL
+                completion(downloadURL)
+            }
         }
     }
 
@@ -86,31 +127,5 @@ class NewEventViewModel: ObservableObject {
             print("Failed to delete temporary file: \(error)")
         }
         self.tempFileURL = nil
-    }
-
-    private func uploadFileToFirebaseStorage(fileURL: URL) {
-        let storageRef = Storage.storage().reference().child("events/\(UUID().uuidString)")
-
-        storageRef.putFile(from: fileURL, metadata: nil) { _, error in
-            if let error = error {
-                print("Failed to upload file to Firebase Storage: \(error)")
-                return
-            }
-
-            storageRef.downloadURL { url, error in
-                if let error = error {
-                    print("Failed to get download URL: \(error)")
-                    return
-                }
-
-                guard let downloadURL = url else {
-                    print("Download URL is nil")
-                    return
-                }
-
-                print("File successfully uploaded to Firebase Storage: \(downloadURL)")
-                self.downloadURL = downloadURL
-            }
-        }
     }
 }

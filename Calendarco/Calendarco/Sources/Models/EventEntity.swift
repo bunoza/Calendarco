@@ -12,8 +12,9 @@ final class EventEntity: Identifiable {
     var endDate: Date
     var creationDate: Date
     var expirationDate: Date
+    var downloadURL: String? // Add this property
 
-    init(title: String, descriptionText: String, url: String, recurrenceRule: String, startDate: Date, endDate: Date, creationDate: Date, expirationDate: Date) {
+    init(title: String, descriptionText: String, url: String, recurrenceRule: String, startDate: Date, endDate: Date, creationDate: Date, expirationDate: Date, downloadURL: String? = nil) {
         self.title = title
         self.descriptionText = descriptionText
         self.url = url
@@ -22,5 +23,6 @@ final class EventEntity: Identifiable {
         self.endDate = endDate
         self.creationDate = creationDate
         self.expirationDate = expirationDate
+        self.downloadURL = downloadURL
     }
 }
