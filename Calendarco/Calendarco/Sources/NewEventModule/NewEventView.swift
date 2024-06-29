@@ -2,17 +2,18 @@ import SwiftData
 import SwiftUI
 
 struct NewEventView: View {
-    @Environment(\.modelContext) private var context
+    @EnvironmentObject private var mainViewModel: MainViewModel
     @StateObject private var viewModel = NewEventViewModel()
     @State private var expandedSections: Set<UUID> = []
     @State private var showQRCode = false
-    @State private var fileName: String = ""
     @State private var recurrenceRule: RecurrenceOption = .none
-    @EnvironmentObject private var mainViewModel: MainViewModel
 
     private var generateFileButton: some View {
         Button {
-            viewModel.saveToTempFile(fileName: fileName, context: context)
+            viewModel.createICSData()
+            if let icsData = viewModel.icsData {
+                mainViewModel.saveToTempFile(fileName: mainViewModel.fileName, icsData: icsData)
+            }
         } label: {
             Text("Generate Calendar File")
                 .font(.title3)
@@ -25,7 +26,7 @@ struct NewEventView: View {
 
     @ViewBuilder
     private var shareButton: some View {
-        if let tempFileURL = viewModel.tempFileURL {
+        if let tempFileURL = mainViewModel.tempFileURL {
             ShareLink(item: tempFileURL) {
                 Text("Share File")
                     .font(.title3)
@@ -37,7 +38,7 @@ struct NewEventView: View {
 
     @ViewBuilder
     private var showQRCodeButton: some View {
-        if viewModel.downloadURL != nil {
+        if mainViewModel.downloadURL != nil {
             Button(action: { showQRCode = true }) {
                 Text("Show QR Code")
                     .font(.title3)
@@ -45,7 +46,7 @@ struct NewEventView: View {
             }
             .buttonStyle(BorderedProminentButtonStyle())
             .sheet(isPresented: $showQRCode) {
-                if let url = viewModel.downloadURL {
+                if let url = mainViewModel.downloadURL {
                     QRCodeView(url: url)
                         .presentationDetents([.medium])
                 }
@@ -62,7 +63,7 @@ struct NewEventView: View {
             VStack {
                 Form {
                     Section {
-                        TextField("File name", text: $fileName)
+                        TextField("File name", text: $mainViewModel.fileName)
                     }
                     ForEach($viewModel.events) { $event in
                         EventDisclosureView(event: $event, expandedSections: $expandedSections)
@@ -73,7 +74,7 @@ struct NewEventView: View {
                         Button {
                             withAnimation {
                                 viewModel.addEvent()
-                                viewModel.handleEventChange()
+                                viewModel.handleEventChange(mainViewModel: mainViewModel)
                             }
                         } label: {
                             HStack {
@@ -84,7 +85,7 @@ struct NewEventView: View {
                         }
                     }
                     Section {} footer: {
-                        if viewModel.tempFileURL != nil {
+                        if mainViewModel.tempFileURL != nil {
                             HStack(alignment: .center) {
                                 shareButton
                                 showQRCodeButton
@@ -96,10 +97,12 @@ struct NewEventView: View {
                 }
                 .onAppear {
                     expandedSections = Set(viewModel.events.map { $0.id })
-                    viewModel.deleteTempFile()
                 }
-                .onChange(of: mainViewModel.events) { newEvents in
+                .onChange(of: mainViewModel.events) { _, newEvents in
                     viewModel.events = newEvents
+                }
+                .onChange(of: mainViewModel.fileName) {
+                    viewModel.handleEventChange(mainViewModel: mainViewModel)
                 }
             }
             .navigationTitle("New Events")
@@ -110,13 +113,6 @@ struct NewEventView: View {
     private func deleteEvent(at offsets: IndexSet) {
         offsets.map { viewModel.events[$0].id }.forEach { expandedSections.remove($0) }
         viewModel.events.remove(atOffsets: offsets)
-        viewModel.handleEventChange()
-    }
-}
-
-struct NewEventView_Previews: PreviewProvider {
-    static var previews: some View {
-        NewEventView()
-            .environmentObject(MainViewModel())
+        viewModel.handleEventChange(mainViewModel: mainViewModel)
     }
 }

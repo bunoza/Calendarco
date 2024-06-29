@@ -4,23 +4,15 @@ import SwiftData
 @Model
 final class EventEntity: Identifiable {
     @Attribute(.unique) var id: UUID = UUID()
-    var title: String
-    var descriptionText: String
-    var url: String
-    var recurrenceRule: String
-    var startDate: Date
-    var endDate: Date
+    @Relationship var events: [Event] = [Event]()
+    var fileName: String
     var creationDate: Date
     var expirationDate: Date
-    var downloadURL: String? // Add this property
+    var downloadURL: String? = nil
 
-    init(title: String, descriptionText: String, url: String, recurrenceRule: String, startDate: Date, endDate: Date, creationDate: Date, expirationDate: Date, downloadURL: String? = nil) {
-        self.title = title
-        self.descriptionText = descriptionText
-        self.url = url
-        self.recurrenceRule = recurrenceRule
-        self.startDate = startDate
-        self.endDate = endDate
+    init(events: [Event], fileName: String, creationDate: Date, expirationDate: Date, downloadURL: String? = nil) {
+        self.events = events
+        self.fileName = fileName
         self.creationDate = creationDate
         self.expirationDate = expirationDate
         self.downloadURL = downloadURL

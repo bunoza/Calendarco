@@ -1,7 +1,12 @@
 import SwiftUI
 
 struct MainView: View {
-    @StateObject private var viewModel = MainViewModel()
+    @Environment(\.modelContext) private var context
+    @StateObject private var viewModel: MainViewModel
+
+    init(viewModel: MainViewModel) {
+        _viewModel = .init(wrappedValue: viewModel)
+    }
 
     var body: some View {
         TabView(selection: $viewModel.selectedTab) {
@@ -24,11 +29,5 @@ struct MainView: View {
         .task {
             viewModel.deleteOldFiles()
         }
-    }
-}
-
-struct MainView_Previews: PreviewProvider {
-    static var previews: some View {
-        MainView()
     }
 }

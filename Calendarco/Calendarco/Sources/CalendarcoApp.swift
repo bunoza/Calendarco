@@ -6,9 +6,11 @@ import SwiftUI
 struct CalendarcoApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 
+    let modelContainer: ModelContainer = try! ModelContainer(for: EventEntity.self)
+
     var body: some Scene {
         WindowGroup {
-            MainView()
+            MainView(viewModel: MainViewModel(modelContext: modelContainer.mainContext))
                 .modelContainer(for: [EventEntity.self])
         }
     }

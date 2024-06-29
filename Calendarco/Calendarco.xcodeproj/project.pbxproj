@@ -17,7 +17,7 @@
 		C57127382C27108F00B6AE16 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = C57127372C27108F00B6AE16 /* FirebaseCrashlytics */; };
 		C571273E2C271A2400B6AE16 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = C571273D2C271A2400B6AE16 /* FirebaseStorage */; };
 		C57127402C27272200B6AE16 /* QRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C571273F2C27272200B6AE16 /* QRCodeView.swift */; };
-		C57127422C27308F00B6AE16 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57127412C27308F00B6AE16 /* StorageManager.swift */; };
+		C57127422C27308F00B6AE16 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57127412C27308F00B6AE16 /* FirebaseManager.swift */; };
 		C581B51E2C26CC34000BCD35 /* CalendarcoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C581B51D2C26CC34000BCD35 /* CalendarcoApp.swift */; };
 		C581B5242C26CC35000BCD35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C581B5232C26CC35000BCD35 /* Assets.xcassets */; };
 		C581B5272C26CC35000BCD35 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C581B5262C26CC35000BCD35 /* Preview Assets.xcassets */; };
@@ -36,7 +36,7 @@
 		C557513C2C303A64002BBA6E /* EventDisclosureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDisclosureView.swift; sourceTree = "<group>"; };
 		C57127322C270F8500B6AE16 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C571273F2C27272200B6AE16 /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
-		C57127412C27308F00B6AE16 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		C57127412C27308F00B6AE16 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		C581B51A2C26CC34000BCD35 /* Calendarco.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Calendarco.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C581B51D2C26CC34000BCD35 /* CalendarcoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarcoApp.swift; sourceTree = "<group>"; };
 		C581B5232C26CC35000BCD35 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -167,7 +167,7 @@
 		C5EC2BD62C285FDD00531287 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				C57127412C27308F00B6AE16 /* StorageManager.swift */,
+				C57127412C27308F00B6AE16 /* FirebaseManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -271,7 +271,7 @@
 				C5EC2BD02C285E2400531287 /* RecurrenceOption.swift in Sources */,
 				C55751302C301A46002BBA6E /* EventsHistoryView.swift in Sources */,
 				C557513D2C303A64002BBA6E /* EventDisclosureView.swift in Sources */,
-				C57127422C27308F00B6AE16 /* StorageManager.swift in Sources */,
+				C57127422C27308F00B6AE16 /* FirebaseManager.swift in Sources */,
 				C557513A2C302F7B002BBA6E /* MainViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

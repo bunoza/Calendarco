@@ -1,9 +1,10 @@
 import SwiftUI
 
 struct EventDisclosureView: View {
+    @EnvironmentObject private var mainViewModel: MainViewModel
+    @ObservedObject var viewModel = NewEventViewModel()
     @Binding var event: Event
     @Binding var expandedSections: Set<UUID>
-    @ObservedObject var viewModel = NewEventViewModel()
 
     private var isExpanded: Binding<Bool> {
         Binding<Bool>(
@@ -22,15 +23,15 @@ struct EventDisclosureView: View {
         DisclosureGroup(isExpanded: isExpanded) {
             TextField("Event Title", text: $event.title)
                 .onChange(of: event.title) {
-                    viewModel.handleEventChange()
+                    viewModel.handleEventChange(mainViewModel: mainViewModel)
                 }
-            TextField("Event Description", text: $event.description)
-                .onChange(of: event.description) {
-                    viewModel.handleEventChange()
+            TextField("Event Description", text: $event.eventDescription)
+                .onChange(of: event.eventDescription) {
+                    viewModel.handleEventChange(mainViewModel: mainViewModel)
                 }
             TextField("Event URL", text: $event.url)
                 .onChange(of: event.url) {
-                    viewModel.handleEventChange()
+                    viewModel.handleEventChange(mainViewModel: mainViewModel)
                 }
             DatePicker(
                 "Start Date",
@@ -38,7 +39,7 @@ struct EventDisclosureView: View {
                 displayedComponents: [.date, .hourAndMinute]
             )
             .onChange(of: event.startDate) {
-                viewModel.handleEventChange()
+                viewModel.handleEventChange(mainViewModel: mainViewModel)
             }
             DatePicker(
                 "End Date",
@@ -47,16 +48,16 @@ struct EventDisclosureView: View {
                 displayedComponents: [.date, .hourAndMinute]
             )
             .onChange(of: event.endDate) {
-                viewModel.handleEventChange()
+                viewModel.handleEventChange(mainViewModel: mainViewModel)
             }
             Picker("Recurrence", selection: $event.recurrenceRule) {
-                ForEach(RecurrenceOption.allCases, id: \.self) {
-                    Text($0.rawValue)
+                ForEach(RecurrenceOption.allCases.map(\.rawValue), id: \.self) {
+                    Text($0)
                         .tag($0)
                 }
             }
             .onChange(of: event.recurrenceRule) {
-                viewModel.handleEventChange()
+                viewModel.handleEventChange(mainViewModel: mainViewModel)
             }
         } label: {
             Text(event.title.isEmpty ? "Event" : event.title)
