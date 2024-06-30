@@ -40,6 +40,9 @@ struct EventDisclosureView: View {
             )
             .onChange(of: event.startDate) {
                 viewModel.handleEventChange(mainViewModel: mainViewModel)
+                if event.startDate >= event.endDate {
+                    event.endDate = event.startDate.addingTimeInterval(3600)
+                }
             }
             DatePicker(
                 "End Date",

@@ -18,31 +18,43 @@ final class NewEventViewModel: ObservableObject {
         dateFormatter.dateFormat = "yyyyMMdd'T'HHmmss'Z'"
         dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
 
-        var icsContent = """
+        let calendarHeader = """
         BEGIN:VCALENDAR
         VERSION:2.0
+        PRODID:-//bunoza.Calendarco//EN
         CALSCALE:GREGORIAN
         METHOD:PUBLISH
         """
 
+        let calendarFooter = "END:VCALENDAR"
+
+        var eventsContent = ""
+
         for event in events {
+            let dtstamp = dateFormatter.string(from: Date())
             let startDateString = dateFormatter.string(from: event.startDate)
             let endDateString = dateFormatter.string(from: event.endDate)
 
-            icsContent += """
-
+            var eventContent = """
             BEGIN:VEVENT
+            UID:\(UUID().uuidString)
+            DTSTAMP:\(dtstamp)
             SUMMARY:\(event.title)
             DTSTART:\(startDateString)
             DTEND:\(endDateString)
             DESCRIPTION:\(event.eventDescription)
             URL:\(event.url)
-            RRULE:\(RecurrenceOption(rawValue: event.recurrenceRule).rule)
-            END:VEVENT
             """
+
+            if event.recurrenceRule != "None" {
+                eventContent += "\nRRULE:\(RecurrenceOption(rawValue: event.recurrenceRule).rule)"
+            }
+
+            eventContent += "\nEND:VEVENT"
+            eventsContent += eventContent + "\n"
         }
 
-        icsContent += "\nEND:VCALENDAR"
+        let icsContent = calendarHeader + "\n" + eventsContent + calendarFooter
         icsData = icsContent.data(using: .utf8)
     }
 

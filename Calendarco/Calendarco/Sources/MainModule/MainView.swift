@@ -2,11 +2,7 @@ import SwiftUI
 
 struct MainView: View {
     @Environment(\.modelContext) private var context
-    @StateObject private var viewModel: MainViewModel
-
-    init(viewModel: MainViewModel) {
-        _viewModel = .init(wrappedValue: viewModel)
-    }
+    @StateObject private var viewModel: MainViewModel = .init()
 
     var body: some View {
         TabView(selection: $viewModel.selectedTab) {

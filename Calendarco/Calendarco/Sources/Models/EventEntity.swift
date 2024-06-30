@@ -10,7 +10,7 @@ final class EventEntity: Identifiable {
     var expirationDate: Date
     var downloadURL: String? = nil
 
-    init(events: [Event], fileName: String, creationDate: Date, expirationDate: Date, downloadURL: String? = nil) {
+    init(events: [Event] = [], fileName: String, creationDate: Date, expirationDate: Date, downloadURL: String? = nil) {
         self.events = events
         self.fileName = fileName
         self.creationDate = creationDate

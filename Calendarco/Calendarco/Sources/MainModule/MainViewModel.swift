@@ -9,13 +9,7 @@ final class MainViewModel: ObservableObject {
     @Published var tempFileURL: URL? = nil
     @Published var downloadURL: URL? = nil
 
-    let context: ModelContext
-
     let manager = FirebaseManager()
-
-    init(modelContext: ModelContext) {
-        context = modelContext
-    }
 
     func importEvent(_ eventEntity: EventEntity) {
         selectedTab = .newEvent
@@ -27,7 +21,6 @@ final class MainViewModel: ObservableObject {
         for event in eventEntity.events {
             events.append(
                 Event(
-                    id: event.id,
                     title: event.title,
                     eventDescription: event.eventDescription,
                     url: event.url,
@@ -36,37 +29,6 @@ final class MainViewModel: ObservableObject {
                     endDate: event.endDate
                 )
             )
-        }
-    }
-
-    func saveToTempFile(fileName: String, icsData: Data) {
-        let tempDirectory = FileManager.default.temporaryDirectory
-        let finalFileName = fileName.isEmpty ? "generated_events.ics" : "\(fileName).ics"
-        let tempFileURL = tempDirectory.appendingPathComponent(finalFileName)
-
-        do {
-            try icsData.write(to: tempFileURL)
-            self.tempFileURL = tempFileURL
-
-            manager.uploadFileToFirebaseStorage(fileURL: tempFileURL) { [self] downloadURL in
-                guard let downloadURL = downloadURL else {
-                    print("Failed to upload file to Firebase Storage")
-                    return
-                }
-
-                let newFile = EventEntity(
-                    events: self.events,
-                    fileName: fileName,
-                    creationDate: Date(),
-                    expirationDate: Calendar.current.date(byAdding: .day, value: 7, to: Date())!,
-                    downloadURL: downloadURL.absoluteString
-                )
-                self.context.insert(newFile)
-                try? context.save()
-                self.downloadURL = downloadURL
-            }
-        } catch {
-            print("Failed to write .ics file to temporary directory: \(error)")
         }
     }
 

@@ -2,6 +2,7 @@ import SwiftData
 import SwiftUI
 
 struct NewEventView: View {
+    @Environment(\.modelContext) private var context: ModelContext
     @EnvironmentObject private var mainViewModel: MainViewModel
     @StateObject private var viewModel = NewEventViewModel()
     @State private var expandedSections: Set<UUID> = []
@@ -12,7 +13,7 @@ struct NewEventView: View {
         Button {
             viewModel.createICSData()
             if let icsData = viewModel.icsData {
-                mainViewModel.saveToTempFile(fileName: mainViewModel.fileName, icsData: icsData)
+                saveToTempFile(fileName: mainViewModel.fileName, icsData: icsData)
             }
         } label: {
             Text("Generate Calendar File")
@@ -73,6 +74,7 @@ struct NewEventView: View {
                     Section {} footer: {
                         Button {
                             withAnimation {
+                                expandedSections = Set()
                                 viewModel.addEvent()
                                 viewModel.handleEventChange(mainViewModel: mainViewModel)
                             }
@@ -95,11 +97,9 @@ struct NewEventView: View {
                         }
                     }
                 }
-                .onAppear {
-                    expandedSections = Set(viewModel.events.map { $0.id })
-                }
                 .onChange(of: mainViewModel.events) { _, newEvents in
                     viewModel.events = newEvents
+                    viewModel.handleEventChange(mainViewModel: mainViewModel)
                 }
                 .onChange(of: mainViewModel.fileName) {
                     viewModel.handleEventChange(mainViewModel: mainViewModel)
@@ -114,5 +114,36 @@ struct NewEventView: View {
         offsets.map { viewModel.events[$0].id }.forEach { expandedSections.remove($0) }
         viewModel.events.remove(atOffsets: offsets)
         viewModel.handleEventChange(mainViewModel: mainViewModel)
+    }
+
+    func saveToTempFile(fileName: String, icsData: Data) {
+        let tempDirectory = FileManager.default.temporaryDirectory
+        let finalFileName = fileName.isEmpty ? "generated_events.ics" : "\(fileName).ics"
+        let tempFileURL = tempDirectory.appendingPathComponent(finalFileName)
+
+        do {
+            try icsData.write(to: tempFileURL)
+            mainViewModel.tempFileURL = tempFileURL
+
+            viewModel.manager.uploadFileToFirebaseStorage(fileURL: tempFileURL) { downloadURL in
+                guard let downloadURL = downloadURL else {
+                    print("Failed to upload file to Firebase Storage")
+                    return
+                }
+
+                let newFile = EventEntity(
+                    fileName: fileName,
+                    creationDate: Date(),
+                    expirationDate: Calendar.current.date(byAdding: .day, value: 7, to: Date())!,
+                    downloadURL: downloadURL.absoluteString
+                )
+                mainViewModel.downloadURL = downloadURL
+                context.insert(newFile)
+                newFile.events = viewModel.events
+                try? context.save()
+            }
+        } catch {
+            print("Failed to write .ics file to temporary directory: \(error)")
+        }
     }
 }

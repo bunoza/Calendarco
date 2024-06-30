@@ -5,8 +5,10 @@ import SwiftUI
 struct EventsHistoryView: View {
     @Environment(\.modelContext) private var context: ModelContext
     @Environment(\.openURL) var openURL
-    @Query(sort: \EventEntity.creationDate, order: .reverse) private var events: [EventEntity]
     @EnvironmentObject private var mainViewModel: MainViewModel
+    @State private var selectedItemToShowQR: EventEntity?
+
+    @Query(sort: \EventEntity.creationDate, order: .reverse) private var events: [EventEntity]
 
     private let manager: FirebaseManager = .shared
 
@@ -40,6 +42,15 @@ struct EventsHistoryView: View {
                                             }
                                         }
                                         .disabled(event.expirationDate < Date())
+                                        Button {
+                                            selectedItemToShowQR = event
+                                        } label: {
+                                            HStack {
+                                                Image(systemName: "qrcode")
+                                                Text("Show QR code")
+                                            }
+                                        }
+                                        .disabled(event.expirationDate < Date())
                                     }
                                     Button {
                                         withAnimation {
@@ -57,6 +68,7 @@ struct EventsHistoryView: View {
                                             Text("\(event.fileName)")
                                                 .font(.headline)
                                         }
+                                        Text("\(event.events.count) \(event.events.count == 1 ? "event" : "events")")
                                         Text("Created on: \(event.creationDate, formatter: dateFormatter)")
                                             .font(.subheadline)
                                         Text("Expires on: \(event.expirationDate, formatter: dateFormatter)")
@@ -67,6 +79,16 @@ struct EventsHistoryView: View {
                         }
                         .onDelete(perform: deleteItems)
                     }
+                }
+            }
+            .sheet(isPresented: Binding(get: {
+                selectedItemToShowQR != nil
+            }, set: { _ in
+                selectedItemToShowQR = nil
+            })) {
+                if let urlString = selectedItemToShowQR?.downloadURL, let url = URL(string: urlString) {
+                    QRCodeView(url: url)
+                        .presentationDetents([.medium])
                 }
             }
             .navigationTitle("Events History")
