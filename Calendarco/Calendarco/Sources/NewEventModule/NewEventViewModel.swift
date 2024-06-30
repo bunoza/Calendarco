@@ -19,14 +19,10 @@ final class NewEventViewModel: ObservableObject {
         dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
 
         let calendarHeader = """
-        BEGIN:VCALENDAR
-        VERSION:2.0
-        PRODID:-//bunoza.Calendarco//EN
-        CALSCALE:GREGORIAN
-        METHOD:PUBLISH
+        BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//bunoza.Calendarco//EN\r\nCALSCALE:GREGORIAN\r\nMETHOD:PUBLISH\r\n
         """
 
-        let calendarFooter = "END:VCALENDAR"
+        let calendarFooter = "END:VCALENDAR\r\n"
 
         var eventsContent = ""
 
@@ -36,25 +32,18 @@ final class NewEventViewModel: ObservableObject {
             let endDateString = dateFormatter.string(from: event.endDate)
 
             var eventContent = """
-            BEGIN:VEVENT
-            UID:\(UUID().uuidString)
-            DTSTAMP:\(dtstamp)
-            SUMMARY:\(event.title)
-            DTSTART:\(startDateString)
-            DTEND:\(endDateString)
-            DESCRIPTION:\(event.eventDescription)
-            URL:\(event.url)
+            BEGIN:VEVENT\r\nUID:\(UUID().uuidString)\r\nDTSTAMP:\(dtstamp)\r\nSUMMARY:\(event.title)\r\nDTSTART:\(startDateString)\r\nDTEND:\(endDateString)\r\nDESCRIPTION:\(event.eventDescription)\r\nURL:\(event.url)\r\n
             """
 
             if event.recurrenceRule != "None" {
-                eventContent += "\nRRULE:\(RecurrenceOption(rawValue: event.recurrenceRule).rule)"
+                eventContent += "RRULE:\(RecurrenceOption(rawValue: event.recurrenceRule).rule)\r\n"
             }
 
-            eventContent += "\nEND:VEVENT"
-            eventsContent += eventContent + "\n"
+            eventContent += "END:VEVENT\r\n"
+            eventsContent += eventContent
         }
 
-        let icsContent = calendarHeader + "\n" + eventsContent + calendarFooter
+        let icsContent = calendarHeader + eventsContent + calendarFooter
         icsData = icsContent.data(using: .utf8)
     }
 
