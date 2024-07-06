@@ -78,6 +78,19 @@ struct NewEventView: View {
                 Form {
                     Section {
                         TextField("File name", text: $mainViewModel.fileName)
+                            .overlay {
+                                HStack {
+                                    Spacer()
+                                    if !mainViewModel.fileName.isEmpty {
+                                        Button {
+                                            mainViewModel.fileName = ""
+                                        } label: {
+                                            Image(systemName: "xmark.circle.fill")
+                                                .foregroundColor(.gray)
+                                        }
+                                    }
+                                }
+                            }
                     }
                     ForEach($viewModel.events) { $event in
                         EventDisclosureView(event: $event, expandedSections: $expandedSections)
