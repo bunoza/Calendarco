@@ -9,12 +9,19 @@ struct NewEventView: View {
     @State private var showQRCode = false
     @State private var recurrenceRule: RecurrenceOption = .none
     @State private var showMaxEventsAlert = false
+    @State private var showMaxFilesAlert = false
+
+    @Query private var events: [EventEntity]
 
     private var generateFileButton: some View {
         Button {
-            viewModel.createICSData()
-            if let icsData = viewModel.icsData {
-                saveToTempFile(fileName: mainViewModel.fileName, icsData: icsData)
+            if events.count > 19 {
+                showMaxFilesAlert = true
+            } else {
+                viewModel.createICSData()
+                if let icsData = viewModel.icsData {
+                    saveToTempFile(fileName: mainViewModel.fileName, icsData: icsData)
+                }
             }
         } label: {
             Text("Generate Calendar File")
@@ -24,6 +31,11 @@ struct NewEventView: View {
         .buttonStyle(BorderedProminentButtonStyle())
         .disabled(viewModel.events.isEmpty)
         .padding(.bottom)
+        .alert("Maximum number of files", isPresented: $showMaxFilesAlert) {
+            Button("OK", role: .cancel, action: {})
+        } message: {
+            Text("You have reached a limit for number of generated files.")
+        }
     }
 
     @ViewBuilder
