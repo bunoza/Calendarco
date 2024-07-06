@@ -8,6 +8,7 @@ struct NewEventView: View {
     @State private var expandedSections: Set<UUID> = []
     @State private var showQRCode = false
     @State private var recurrenceRule: RecurrenceOption = .none
+    @State private var showMaxEventsAlert = false
 
     private var generateFileButton: some View {
         Button {
@@ -73,10 +74,14 @@ struct NewEventView: View {
 
                     Section {} footer: {
                         Button {
-                            withAnimation {
-                                expandedSections = Set()
-                                viewModel.addEvent()
-                                viewModel.handleEventChange(mainViewModel: mainViewModel)
+                            if viewModel.events.count > 19 {
+                                showMaxEventsAlert = true
+                            } else {
+                                withAnimation {
+                                    expandedSections = Set()
+                                    viewModel.addEvent()
+                                    viewModel.handleEventChange(mainViewModel: mainViewModel)
+                                }
                             }
                         } label: {
                             HStack {
@@ -84,6 +89,11 @@ struct NewEventView: View {
                                 Text("Add Event")
                                 Spacer()
                             }
+                        }
+                        .alert("Maximum number of events", isPresented: $showMaxEventsAlert) {
+                            Button("OK", role: .cancel, action: {})
+                        } message: {
+                            Text("You have reached a limit for number of events in single file.")
                         }
                     }
                     Section {} footer: {
