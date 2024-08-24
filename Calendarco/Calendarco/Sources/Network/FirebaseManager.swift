@@ -68,7 +68,7 @@ final class FirebaseManager: Sendable {
             }
 
             let now = Date()
-            let cutoffDate = now.addingTimeInterval(-30 * 24 * 60 * 60) // 30 days
+            let cutoffDate = now.addingTimeInterval(-(Constants.fileExistencePeriod))
 
             let dispatchGroup = DispatchGroup()
 

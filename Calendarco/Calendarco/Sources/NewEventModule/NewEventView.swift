@@ -3,24 +3,48 @@ import SwiftUI
 
 struct NewEventView: View {
     @Environment(\.modelContext) private var context: ModelContext
+    @Environment(\.openURL) var openURL
+
     @EnvironmentObject private var mainViewModel: MainViewModel
     @StateObject private var viewModel = NewEventViewModel()
+
     @State private var expandedSections: Set<UUID> = []
     @State private var showQRCode = false
     @State private var recurrenceRule: RecurrenceOption = .none
     @State private var showMaxEventsAlert = false
     @State private var showMaxFilesAlert = false
+    @State private var fileName = ""
+    @State private var isLoading = false
 
     @Query private var events: [EventEntity]
 
+    private let fileManager = FileManager()
+
+    private var tempFileExists: Bool {
+        if let tempFileURL = mainViewModel.eventEntity?.tempFileURL {
+            return fileManager.fileExists(atPath: tempFileURL.path())
+        }
+        return false
+    }
+
+    private var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        return formatter
+    }
+
     private var generateFileButton: some View {
         Button {
-            if events.count > 19 {
+            if events.count >= Constants.maxFilesCount {
                 showMaxFilesAlert = true
             } else {
+                isLoading = true
                 viewModel.createICSData()
                 if let icsData = viewModel.icsData {
-                    saveToTempFile(fileName: mainViewModel.fileName, icsData: icsData)
+                    saveToTempFile(fileName: fileName, icsData: icsData)
+                } else {
+                    isLoading = false
                 }
             }
         } label: {
@@ -40,7 +64,7 @@ struct NewEventView: View {
 
     @ViewBuilder
     private var shareButton: some View {
-        if let tempFileURL = mainViewModel.tempFileURL {
+        if let tempFileURL = mainViewModel.eventEntity?.tempFileURL, tempFileExists {
             ShareLink(item: tempFileURL) {
                 Text("Share File")
                     .font(.title3)
@@ -52,7 +76,7 @@ struct NewEventView: View {
 
     @ViewBuilder
     private var showQRCodeButton: some View {
-        if mainViewModel.downloadURL != nil {
+        if mainViewModel.eventEntity?.downloadURL != nil {
             Button(action: { showQRCode = true }) {
                 Text("Show QR Code")
                     .font(.title3)
@@ -60,15 +84,48 @@ struct NewEventView: View {
             }
             .buttonStyle(BorderedProminentButtonStyle())
             .sheet(isPresented: $showQRCode) {
-                if let url = mainViewModel.downloadURL {
+                if let downloadString = mainViewModel.eventEntity?.downloadURL,
+                   let url = URL(string: downloadString)
+                {
                     QRCodeView(url: url)
                         .presentationDetents([.medium])
                 }
             }
+        }
+    }
+
+    @ViewBuilder
+    private var menu: some View {
+        if let event = mainViewModel.eventEntity,
+           let urlString = event.downloadURL,
+           let url = URL(string: urlString)
+        {
+            Menu {
+                Button {
+                    openURL(url)
+                } label: {
+                    HStack {
+                        Image(systemName: "calendar.badge.plus")
+                        Text("Add to my calendar")
+                    }
+                }
+                .disabled(event.expirationDate < Date())
+                Button {
+                    showQRCode = true
+                } label: {
+                    HStack {
+                        Image(systemName: "qrcode")
+                        Text("Show QR code")
+                    }
+                }
+                .disabled(event.expirationDate < Date())
+            } label: {
+                Text("Export")
+                    .buttonStyle(BorderedProminentButtonStyle())
+            }
         } else {
             ProgressView()
                 .progressViewStyle(.circular)
-                .padding()
         }
     }
 
@@ -77,13 +134,13 @@ struct NewEventView: View {
             VStack {
                 Form {
                     Section {
-                        TextField("File name", text: $mainViewModel.fileName)
+                        TextField("File name", text: $fileName)
                             .overlay {
                                 HStack {
                                     Spacer()
-                                    if !mainViewModel.fileName.isEmpty {
+                                    if !fileName.isEmpty {
                                         Button {
-                                            mainViewModel.fileName = ""
+                                            fileName = ""
                                         } label: {
                                             Image(systemName: "xmark.circle.fill")
                                                 .foregroundColor(.gray)
@@ -99,7 +156,7 @@ struct NewEventView: View {
 
                     Section {} footer: {
                         Button {
-                            if viewModel.events.count > 19 {
+                            if viewModel.events.count >= Constants.maxEventsCount {
                                 showMaxEventsAlert = true
                             } else {
                                 withAnimation {
@@ -122,21 +179,37 @@ struct NewEventView: View {
                         }
                     }
                     Section {} footer: {
-                        if mainViewModel.tempFileURL != nil {
-                            HStack(alignment: .center) {
-                                shareButton
-                                showQRCodeButton
+                        HStack {
+                            Spacer()
+                            if !isLoading {
+                                if tempFileExists {
+                                    menu
+                                } else {
+                                    generateFileButton
+                                }
+                            } else {
+                                ProgressView()
+                                    .progressViewStyle(.circular)
                             }
-                        } else {
-                            generateFileButton
+                            Spacer()
+                        }
+                    }
+                    .sheet(isPresented: $showQRCode) {
+                        if let downloadString = mainViewModel.eventEntity?.downloadURL,
+                           let url = URL(string: downloadString)
+                        {
+                            QRCodeView(url: url)
+                                .presentationDetents([.medium])
                         }
                     }
                 }
-                .onChange(of: mainViewModel.events) { _, newEvents in
-                    viewModel.events = newEvents
-                    viewModel.handleEventChange(mainViewModel: mainViewModel)
+                .onChange(of: mainViewModel.eventEntity?.events) { _, newEvents in
+                    guard let events = newEvents else {
+                        return
+                    }
+                    viewModel.events = events
                 }
-                .onChange(of: mainViewModel.fileName) {
+                .onChange(of: fileName) {
                     viewModel.handleEventChange(mainViewModel: mainViewModel)
                 }
             }
@@ -158,11 +231,10 @@ struct NewEventView: View {
 
         do {
             try icsData.write(to: tempFileURL)
-            mainViewModel.tempFileURL = tempFileURL
-
             viewModel.manager.uploadFileToFirebaseStorage(fileURL: tempFileURL) { downloadURL in
                 guard let downloadURL = downloadURL else {
                     print("Failed to upload file to Firebase Storage")
+                    isLoading = false
                     return
                 }
 
@@ -170,14 +242,18 @@ struct NewEventView: View {
                     fileName: fileName,
                     creationDate: Date(),
                     expirationDate: Calendar.current.date(byAdding: .day, value: 7, to: Date())!,
-                    downloadURL: downloadURL.absoluteString
+                    downloadURL: downloadURL.absoluteString,
+                    tempFileURL: tempFileURL
                 )
-                mainViewModel.downloadURL = downloadURL
+
+                mainViewModel.eventEntity = newFile
                 context.insert(newFile)
                 newFile.events = viewModel.events
                 try? context.save()
+                isLoading = false
             }
         } catch {
+            isLoading = false
             print("Failed to write .ics file to temporary directory: \(error)")
         }
     }

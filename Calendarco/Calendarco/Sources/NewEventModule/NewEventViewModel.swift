@@ -1,11 +1,10 @@
-
 import SwiftData
 import SwiftUI
 
 @MainActor
 final class NewEventViewModel: ObservableObject {
     @Published var events: [Event] = [Event()]
-    @Published var icsData: Data? = nil
+    @Published var icsData: Data?
 
     let manager: FirebaseManager = .shared
 
@@ -48,7 +47,7 @@ final class NewEventViewModel: ObservableObject {
     }
 
     func handleEventChange(mainViewModel: MainViewModel) {
-        if mainViewModel.tempFileURL != nil {
+        if mainViewModel.eventEntity?.tempFileURL != nil {
             withAnimation {
                 deleteTempFile(mainViewModel: mainViewModel)
             }
@@ -56,7 +55,7 @@ final class NewEventViewModel: ObservableObject {
     }
 
     func deleteTempFile(mainViewModel: MainViewModel) {
-        guard let tempFileURL = mainViewModel.tempFileURL else { return }
+        guard let tempFileURL = mainViewModel.eventEntity?.tempFileURL else { return }
 
         do {
             try FileManager.default.removeItem(at: tempFileURL)
@@ -64,6 +63,6 @@ final class NewEventViewModel: ObservableObject {
         } catch {
             print("Failed to delete temporary file: \(error)")
         }
-        mainViewModel.tempFileURL = nil
+        mainViewModel.eventEntity?.tempFileURL = nil
     }
 }

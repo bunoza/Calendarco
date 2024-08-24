@@ -22,6 +22,7 @@
 		C581B5242C26CC35000BCD35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C581B5232C26CC35000BCD35 /* Assets.xcassets */; };
 		C581B5272C26CC35000BCD35 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C581B5262C26CC35000BCD35 /* Preview Assets.xcassets */; };
 		C581B52E2C26CC76000BCD35 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C581B52D2C26CC76000BCD35 /* MainView.swift */; };
+		C592FB252C7A4CC600DB0FD8 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C592FB242C7A4CC600DB0FD8 /* Constants.swift */; };
 		C5EC2BD02C285E2400531287 /* RecurrenceOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5EC2BCF2C285E2400531287 /* RecurrenceOption.swift */; };
 		C5EC2BD52C285F9B00531287 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5EC2BD42C285F9B00531287 /* Event.swift */; };
 		C5FD50E22C26D5FA0018C543 /* CalendarEventDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FD50E12C26D5FA0018C543 /* CalendarEventDocument.swift */; };
@@ -42,6 +43,7 @@
 		C581B5232C26CC35000BCD35 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C581B5262C26CC35000BCD35 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C581B52D2C26CC76000BCD35 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		C592FB242C7A4CC600DB0FD8 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		C5EC2BCF2C285E2400531287 /* RecurrenceOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurrenceOption.swift; sourceTree = "<group>"; };
 		C5EC2BD42C285F9B00531287 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		C5FD50E12C26D5FA0018C543 /* CalendarEventDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarEventDocument.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 				C5FD50E12C26D5FA0018C543 /* CalendarEventDocument.swift */,
 				C5EC2BD42C285F9B00531287 /* Event.swift */,
 				C55751312C301DC9002BBA6E /* EventEntity.swift */,
+				C592FB242C7A4CC600DB0FD8 /* Constants.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -297,6 +300,7 @@
 				C5EC2BD02C285E2400531287 /* RecurrenceOption.swift in Sources */,
 				C55751302C301A46002BBA6E /* EventsHistoryView.swift in Sources */,
 				C557513D2C303A64002BBA6E /* EventDisclosureView.swift in Sources */,
+				C592FB252C7A4CC600DB0FD8 /* Constants.swift in Sources */,
 				C57127422C27308F00B6AE16 /* FirebaseManager.swift in Sources */,
 				C557513A2C302F7B002BBA6E /* MainViewModel.swift in Sources */,
 			);

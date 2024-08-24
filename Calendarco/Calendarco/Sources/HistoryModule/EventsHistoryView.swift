@@ -32,49 +32,49 @@ struct EventsHistoryView: View {
                     List {
                         Section {
                             ForEach(events) { event in
-                                    Menu {
-                                        if let urlString = event.downloadURL, let url = URL(string: urlString) {
-                                            Button {
-                                                openURL(url)
-                                            } label: {
-                                                HStack {
-                                                    Image(systemName: "calendar.badge.plus")
-                                                    Text("Add to my calendar")
-                                                }
-                                            }
-                                            .disabled(event.expirationDate < Date())
-                                            Button {
-                                                selectedItemToShowQR = event
-                                            } label: {
-                                                HStack {
-                                                    Image(systemName: "qrcode")
-                                                    Text("Show QR code")
-                                                }
-                                            }
-                                            .disabled(event.expirationDate < Date())
-                                        }
+                                Menu {
+                                    if let urlString = event.downloadURL, let url = URL(string: urlString) {
                                         Button {
-                                            withAnimation {
-                                                mainViewModel.importEvent(event)
-                                            }
+                                            openURL(url)
                                         } label: {
                                             HStack {
-                                                Image(systemName: "square.and.arrow.down.on.square")
-                                                Text("Import and edit")
+                                                Image(systemName: "calendar.badge.plus")
+                                                Text("Add to my calendar")
                                             }
+                                        }
+                                        .disabled(event.expirationDate < Date())
+                                        Button {
+                                            selectedItemToShowQR = event
+                                        } label: {
+                                            HStack {
+                                                Image(systemName: "qrcode")
+                                                Text("Show QR code")
+                                            }
+                                        }
+                                        .disabled(event.expirationDate < Date())
+                                    }
+                                    Button {
+                                        withAnimation {
+                                            mainViewModel.importEvent(event)
                                         }
                                     } label: {
-                                        VStack(alignment: .leading) {
-                                            if !event.fileName.isEmpty {
-                                                Text("\(event.fileName)")
-                                                    .font(.headline)
-                                            }
-                                            Text("\(event.events.count) \(event.events.count == 1 ? "event" : "events")")
-                                            Text("Created on: \(event.creationDate, formatter: dateFormatter)")
-                                                .font(.subheadline)
-                                            Text("Expires on: \(event.expirationDate, formatter: dateFormatter)")
-                                                .font(.subheadline)
+                                        HStack {
+                                            Image(systemName: "square.and.arrow.down.on.square")
+                                            Text("Import and edit")
                                         }
+                                    }
+                                } label: {
+                                    VStack(alignment: .leading) {
+                                        if !event.fileName.isEmpty {
+                                            Text("\(event.fileName)")
+                                                .font(.headline)
+                                        }
+                                        Text("\(event.events.count) \(event.events.count == 1 ? "event" : "events")")
+                                        Text("Created on: \(event.creationDate, formatter: dateFormatter)")
+                                            .font(.subheadline)
+                                        Text("Expires on: \(event.expirationDate, formatter: dateFormatter)")
+                                            .font(.subheadline)
+                                    }
                                 }
                             }
                             .onDelete(perform: deleteItems)
@@ -115,6 +115,9 @@ struct EventsHistoryView: View {
     private func deleteItems(at offsets: IndexSet) {
         for index in offsets {
             let event = events[index]
+            if event.id == mainViewModel.eventEntity?.id {
+                mainViewModel.eventEntity?.tempFileURL = nil
+            }
             manager.deleteFileFromFirebaseStorage(downloadURL: event.downloadURL) { success in
                 if success {
                     context.delete(event)

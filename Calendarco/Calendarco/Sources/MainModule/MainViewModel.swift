@@ -3,48 +3,29 @@ import SwiftData
 
 @MainActor
 final class MainViewModel: ObservableObject {
+    enum Tab {
+        case newEvent
+        case history
+    }
+
     @Published var selectedTab: Tab = .newEvent
-    @Published var events: [Event] = []
-    @Published var fileName: String = ""
-    @Published var tempFileURL: URL? = nil
-    @Published var downloadURL: URL? = nil
+    @Published var eventEntity: EventEntity?
 
     let manager = FirebaseManager()
 
     func importEvent(_ eventEntity: EventEntity) {
         selectedTab = .newEvent
-
-        events.removeAll()
-
-        fileName = eventEntity.fileName
-
-        for event in eventEntity.events {
-            events.append(
-                Event(
-                    title: event.title,
-                    eventDescription: event.eventDescription,
-                    url: event.url,
-                    recurrenceRule: RecurrenceOption(rawValue: event.recurrenceRule),
-                    startDate: event.startDate,
-                    endDate: event.endDate
-                )
-            )
-        }
+        self.eventEntity = eventEntity
     }
 
     func deleteOldFiles() {
         manager.deleteOldFiles { result in
             switch result {
-            case .success():
+            case .success:
                 print("Successfully deleted old files")
             case let .failure(error):
                 print("Failed to delete old files: \(error)")
             }
         }
-    }
-
-    enum Tab {
-        case newEvent
-        case history
     }
 }

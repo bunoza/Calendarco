@@ -2,6 +2,7 @@ import SwiftUI
 
 struct QRCodeView: View {
     @Environment(\.dismiss) private var dismiss
+
     let url: URL
 
     var body: some View {
@@ -33,6 +34,7 @@ struct QRCodeView: View {
                 Text("Failed to generate QR code")
                 Text("URL: \(url.absoluteString)") // Display the URL for debugging
             }
+
             Spacer()
         }
     }
