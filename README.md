@@ -10,7 +10,7 @@ Calendarco is a cloud-synced event management app developed with Swift and Swift
 
 ### Data Persistence and Synchronization
 - Integrated with Firebase (`FirebaseManager.swift`) for secure cloud storage and real-time synchronization, allowing access to events across multiple devices.
-- Handles events as documents (`CalendarEventDocument.swift`), potentially supporting import/export functionality.
+- Handles events as documents (`CalendarEventDocument.swift`), supporting import/export functionality.
 
 ### User Interface
 - Built with SwiftUI for a modern, declarative UI experience. The main dashboard (`MainView.swift`) provides an overview of events.
