@@ -21,7 +21,7 @@ struct EventsHistoryView: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Group {
                 if events.isEmpty {
                     VStack {

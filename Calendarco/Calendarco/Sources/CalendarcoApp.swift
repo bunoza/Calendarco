@@ -6,10 +6,23 @@ import SwiftUI
 struct CalendarcoApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 
+    @StateObject private var viewModel = StoreViewModel()
+
     var body: some Scene {
         WindowGroup {
-            MainView()
-                .modelContainer(for: [EventEntity.self, Event.self])
+            Group {
+                if viewModel.isCheckingSubscription {
+                    LoadingView()
+                } else if viewModel.isProductPurchased {
+                    MainView()
+                        .modelContainer(for: [EventEntity.self, Event.self])
+                } else {
+                    StoreView(viewModel: viewModel)
+                }
+            }
+            .task {
+                await viewModel.checkSubscriptionStatus()
+            }
         }
     }
 }

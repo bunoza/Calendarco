@@ -13,8 +13,8 @@ struct NewEventView: View {
     @State private var recurrenceRule: RecurrenceOption = .none
     @State private var showMaxEventsAlert = false
     @State private var showMaxFilesAlert = false
-    @State private var fileName = ""
     @State private var isLoading = false
+    @State private var fileName = ""
 
     @Query private var events: [EventEntity]
 
@@ -66,29 +66,11 @@ struct NewEventView: View {
     private var shareButton: some View {
         if let tempFileURL = mainViewModel.eventEntity?.tempFileURL, tempFileExists {
             ShareLink(item: tempFileURL) {
-                Text("Share File")
-                    .font(.title3)
-                    .padding(6)
-            }
-            .buttonStyle(BorderedProminentButtonStyle())
-        }
-    }
-
-    @ViewBuilder
-    private var showQRCodeButton: some View {
-        if mainViewModel.eventEntity?.downloadURL != nil {
-            Button(action: { showQRCode = true }) {
-                Text("Show QR Code")
-                    .font(.title3)
-                    .padding(6)
-            }
-            .buttonStyle(BorderedProminentButtonStyle())
-            .sheet(isPresented: $showQRCode) {
-                if let downloadString = mainViewModel.eventEntity?.downloadURL,
-                   let url = URL(string: downloadString)
-                {
-                    QRCodeView(url: url)
-                        .presentationDetents([.medium])
+                HStack {
+                    Text("Share File")
+                        .font(.title3)
+                        .padding(6)
+                    Image(systemName: "doc")
                 }
             }
         }
@@ -119,6 +101,8 @@ struct NewEventView: View {
                     }
                 }
                 .disabled(event.expirationDate < Date())
+
+                shareButton
             } label: {
                 Text("Export")
                     .buttonStyle(BorderedProminentButtonStyle())
@@ -130,11 +114,14 @@ struct NewEventView: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 Form {
                     Section {
                         TextField("File name", text: $fileName)
+                            .onChange(of: fileName) {
+                                fileName = fileName.replacingOccurrences(of: " ", with: "_")
+                            }
                             .overlay {
                                 HStack {
                                     Spacer()
@@ -246,10 +233,10 @@ struct NewEventView: View {
                     tempFileURL: tempFileURL
                 )
 
-                mainViewModel.eventEntity = newFile
                 context.insert(newFile)
                 newFile.events = viewModel.events
                 try? context.save()
+                mainViewModel.eventEntity = newFile
                 isLoading = false
             }
         } catch {

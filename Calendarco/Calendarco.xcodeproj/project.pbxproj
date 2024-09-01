@@ -18,10 +18,17 @@
 		C571273E2C271A2400B6AE16 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = C571273D2C271A2400B6AE16 /* FirebaseStorage */; };
 		C57127402C27272200B6AE16 /* QRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C571273F2C27272200B6AE16 /* QRCodeView.swift */; };
 		C57127422C27308F00B6AE16 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57127412C27308F00B6AE16 /* FirebaseManager.swift */; };
+		C57EDBCC2C820D7500BA5D74 /* IAPConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57EDBCB2C820D7500BA5D74 /* IAPConstants.swift */; };
+		C57EDBCE2C820DEF00BA5D74 /* StoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57EDBCD2C820DEF00BA5D74 /* StoreViewModel.swift */; };
+		C57EDBD02C820F8B00BA5D74 /* IAPManagerAlertType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57EDBCF2C820F8B00BA5D74 /* IAPManagerAlertType.swift */; };
+		C57EDBD22C82133400BA5D74 /* StoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C57EDBD12C82133400BA5D74 /* StoreView.swift */; };
+		C57EDBD52C82184900BA5D74 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C57EDBD42C82184900BA5D74 /* StoreKit.framework */; };
 		C581B51E2C26CC34000BCD35 /* CalendarcoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C581B51D2C26CC34000BCD35 /* CalendarcoApp.swift */; };
 		C581B5242C26CC35000BCD35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C581B5232C26CC35000BCD35 /* Assets.xcassets */; };
 		C581B5272C26CC35000BCD35 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C581B5262C26CC35000BCD35 /* Preview Assets.xcassets */; };
 		C581B52E2C26CC76000BCD35 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C581B52D2C26CC76000BCD35 /* MainView.swift */; };
+		C58806152C847B3C00B01E32 /* String+Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58806142C847B3C00B01E32 /* String+Identifiable.swift */; };
+		C58806172C8486C600B01E32 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58806162C8486C600B01E32 /* LoadingView.swift */; };
 		C592FB252C7A4CC600DB0FD8 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C592FB242C7A4CC600DB0FD8 /* Constants.swift */; };
 		C5EC2BD02C285E2400531287 /* RecurrenceOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5EC2BCF2C285E2400531287 /* RecurrenceOption.swift */; };
 		C5EC2BD52C285F9B00531287 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5EC2BD42C285F9B00531287 /* Event.swift */; };
@@ -38,11 +45,18 @@
 		C57127322C270F8500B6AE16 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C571273F2C27272200B6AE16 /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
 		C57127412C27308F00B6AE16 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
+		C57EDBCB2C820D7500BA5D74 /* IAPConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPConstants.swift; sourceTree = "<group>"; };
+		C57EDBCD2C820DEF00BA5D74 /* StoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreViewModel.swift; sourceTree = "<group>"; };
+		C57EDBCF2C820F8B00BA5D74 /* IAPManagerAlertType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPManagerAlertType.swift; sourceTree = "<group>"; };
+		C57EDBD12C82133400BA5D74 /* StoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreView.swift; sourceTree = "<group>"; };
+		C57EDBD42C82184900BA5D74 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		C581B51A2C26CC34000BCD35 /* Calendarco.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Calendarco.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C581B51D2C26CC34000BCD35 /* CalendarcoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarcoApp.swift; sourceTree = "<group>"; };
 		C581B5232C26CC35000BCD35 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C581B5262C26CC35000BCD35 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C581B52D2C26CC76000BCD35 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		C58806142C847B3C00B01E32 /* String+Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Identifiable.swift"; sourceTree = "<group>"; };
+		C58806162C8486C600B01E32 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		C592FB242C7A4CC600DB0FD8 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		C5EC2BCF2C285E2400531287 /* RecurrenceOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurrenceOption.swift; sourceTree = "<group>"; };
 		C5EC2BD42C285F9B00531287 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
@@ -58,6 +72,7 @@
 				C57127362C27108F00B6AE16 /* FirebaseAnalytics in Frameworks */,
 				C571273E2C271A2400B6AE16 /* FirebaseStorage in Frameworks */,
 				C57127382C27108F00B6AE16 /* FirebaseCrashlytics in Frameworks */,
+				C57EDBD52C82184900BA5D74 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,6 +82,8 @@
 		C55751342C302ABF002BBA6E /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				C58806132C847B3100B01E32 /* Extensions */,
+				C57EDBCA2C820D6300BA5D74 /* IAP */,
 				C55751362C302EA5002BBA6E /* NewEventModule */,
 				C55751352C302E87002BBA6E /* HistoryModule */,
 				C5EC2BD62C285FDD00531287 /* Network */,
@@ -112,11 +129,32 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		C57EDBCA2C820D6300BA5D74 /* IAP */ = {
+			isa = PBXGroup;
+			children = (
+				C57EDBCB2C820D7500BA5D74 /* IAPConstants.swift */,
+				C57EDBCD2C820DEF00BA5D74 /* StoreViewModel.swift */,
+				C57EDBCF2C820F8B00BA5D74 /* IAPManagerAlertType.swift */,
+				C57EDBD12C82133400BA5D74 /* StoreView.swift */,
+				C58806162C8486C600B01E32 /* LoadingView.swift */,
+			);
+			path = IAP;
+			sourceTree = "<group>";
+		};
+		C57EDBD32C82184900BA5D74 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C57EDBD42C82184900BA5D74 /* StoreKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		C581B5112C26CC34000BCD35 = {
 			isa = PBXGroup;
 			children = (
 				C581B51C2C26CC34000BCD35 /* Calendarco */,
 				C581B51B2C26CC34000BCD35 /* Products */,
+				C57EDBD32C82184900BA5D74 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -144,6 +182,14 @@
 				C581B5262C26CC35000BCD35 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		C58806132C847B3100B01E32 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C58806142C847B3C00B01E32 /* String+Identifiable.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		C5EC2BD12C285F6200531287 /* MainModule */ = {
@@ -289,19 +335,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C57EDBCE2C820DEF00BA5D74 /* StoreViewModel.swift in Sources */,
 				C581B52E2C26CC76000BCD35 /* MainView.swift in Sources */,
+				C57EDBCC2C820D7500BA5D74 /* IAPConstants.swift in Sources */,
 				C57127402C27272200B6AE16 /* QRCodeView.swift in Sources */,
 				C5EC2BD52C285F9B00531287 /* Event.swift in Sources */,
+				C58806172C8486C600B01E32 /* LoadingView.swift in Sources */,
 				C5FD50E42C26D60F0018C543 /* NewEventViewModel.swift in Sources */,
 				C5FD50E22C26D5FA0018C543 /* CalendarEventDocument.swift in Sources */,
 				C55751382C302EB6002BBA6E /* NewEventView.swift in Sources */,
+				C57EDBD02C820F8B00BA5D74 /* IAPManagerAlertType.swift in Sources */,
 				C55751322C301DC9002BBA6E /* EventEntity.swift in Sources */,
 				C581B51E2C26CC34000BCD35 /* CalendarcoApp.swift in Sources */,
 				C5EC2BD02C285E2400531287 /* RecurrenceOption.swift in Sources */,
 				C55751302C301A46002BBA6E /* EventsHistoryView.swift in Sources */,
+				C58806152C847B3C00B01E32 /* String+Identifiable.swift in Sources */,
 				C557513D2C303A64002BBA6E /* EventDisclosureView.swift in Sources */,
 				C592FB252C7A4CC600DB0FD8 /* Constants.swift in Sources */,
 				C57127422C27308F00B6AE16 /* FirebaseManager.swift in Sources */,
+				C57EDBD22C82133400BA5D74 /* StoreView.swift in Sources */,
 				C557513A2C302F7B002BBA6E /* MainViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
