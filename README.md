@@ -93,7 +93,7 @@ devbunoza@gmail.com
 
 
 
-### Terms of Use for Calendarco**
+### Terms of Use for Calendarco
 
 _Last Updated: September 6th, 2024._
 
